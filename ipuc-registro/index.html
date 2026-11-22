@@ -3,816 +3,412 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registro de Visitantes · IPUC</title>
-<meta name="description" content="Plantilla para registrar visitantes de la Iglesia Pentecostal Unida de Colombia.">
+<title>Registro · IPUC</title>
 <meta name="theme-color" content="#01498f">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --azul: #01498f;
     --azul-oscuro: #01336a;
     --azul-claro: #e8f0f9;
     --oro: #fbb900;
-    --oro-claro: #fff6d9;
     --texto: #1a2433;
     --suave: #5b6778;
     --borde: #d9e1ec;
     --fondo: #f3f6fa;
-    --blanco: #ffffff;
     --rojo: #c0392b;
-    --verde: #1e8e4e;
-    --radio: 14px;
-    --sombra: 0 6px 24px rgba(1, 51, 106, 0.08);
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
-  html, body { margin: 0; }
   body {
-    font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    color: var(--texto);
-    background: var(--fondo);
-    line-height: 1.45;
+    margin: 0; background: var(--fondo); color: var(--texto); line-height: 1.45;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  button, input, select, textarea { font: inherit; color: inherit; }
+  button, input { font: inherit; color: inherit; }
 
-  /* ---------- Encabezado ---------- */
-  .encabezado {
-    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
-    color: #fff;
-    position: relative;
-    overflow: hidden;
+  header {
+    background: linear-gradient(135deg, var(--azul-oscuro), var(--azul));
+    border-bottom: 5px solid var(--oro); color: #fff;
   }
-  .encabezado::after {
-    content: "";
-    position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
-    background: var(--oro);
+  .cab { max-width: 760px; margin: 0 auto; padding: 18px 18px 20px; display: flex; align-items: center; gap: 16px; }
+  .logo { background: #fff; border-radius: 14px; padding: 6px 8px; flex: none; }
+  .logo img { display: block; width: 96px; height: auto; }
+  .cab small { display: block; color: var(--oro); font-size: 11.5px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; }
+  .cab h1 { margin: 2px 0 0; font-size: clamp(22px, 5vw, 30px); line-height: 1.1; }
+  .cong {
+    margin-top: 6px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.28);
+    color: #fff; border-radius: 999px; padding: 3px 12px; font-size: 13.5px; font-weight: 700; cursor: pointer;
   }
-  .encabezado-in {
-    max-width: 1180px; margin: 0 auto;
-    padding: 18px 20px 22px;
-    display: flex; align-items: center; gap: 18px;
-  }
-  .logo-caja {
-    background: #fff; border-radius: 16px; padding: 8px 10px;
-    flex: none; box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  }
-  .logo-caja img { display: block; width: 112px; height: auto; }
-  .titulos { flex: 1; min-width: 0; }
-  .titulos small {
-    display: block; text-transform: uppercase; letter-spacing: 2px;
-    font-size: 12px; font-weight: 700; color: var(--oro);
-  }
-  .titulos h1 { margin: 2px 0 4px; font-size: clamp(22px, 4vw, 32px); font-weight: 800; line-height: 1.1; }
-  .congregacion {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
-    color: #fff; border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 600;
-    cursor: pointer;
-  }
-  .congregacion:hover { background: rgba(255,255,255,0.2); }
-  .congregacion svg { width: 14px; height: 14px; opacity: 0.85; }
 
-  /* ---------- Contenido ---------- */
-  main { max-width: 1180px; margin: 0 auto; padding: 20px; }
+  main { max-width: 760px; margin: 0 auto; padding: 18px; }
+  .tarjeta { background: #fff; border-radius: 16px; box-shadow: 0 6px 24px rgba(1,51,106,.08); padding: 18px; margin-bottom: 16px; }
 
-  .resumen {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;
-  }
-  .dato {
-    background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra);
-    padding: 14px 16px; border-top: 4px solid var(--azul);
-  }
-  .dato:nth-child(2) { border-top-color: var(--oro); }
-  .dato:nth-child(3) { border-top-color: var(--verde); }
-  .dato b { display: block; font-size: 28px; font-weight: 800; line-height: 1; color: var(--azul-oscuro); }
-  .dato span { font-size: 13px; color: var(--suave); font-weight: 600; }
+  .conteo { display: flex; gap: 10px; margin-bottom: 16px; }
+  .conteo div { flex: 1; background: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 6px 24px rgba(1,51,106,.08); border-top: 4px solid var(--azul); }
+  .conteo div + div { border-top-color: var(--oro); }
+  .conteo b { display: block; font-size: 28px; line-height: 1; color: var(--azul-oscuro); }
+  .conteo span { font-size: 13px; color: var(--suave); font-weight: 700; }
 
-  .rejilla { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 20px; align-items: start; }
-  .rejilla > * { min-width: 0; }
+  label { display: block; font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+  input[type="text"], input[type="tel"], input[type="search"] {
+    width: 100%; border: 1.5px solid var(--borde); border-radius: 12px; padding: 13px 14px; font-size: 17px;
+    outline: none; background: #fff;
+  }
+  input:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(1,73,143,.15); }
+  .campo { margin-bottom: 14px; }
+  .fila { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .fila { grid-template-columns: 1fr; gap: 0; } }
 
-  .tarjeta {
-    background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra);
-    padding: 20px;
-  }
-  .tarjeta h2 {
-    margin: 0 0 14px; font-size: 18px; font-weight: 800; color: var(--azul-oscuro);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .tarjeta h2::before {
-    content: ""; width: 6px; height: 20px; border-radius: 3px; background: var(--oro);
-  }
-  .formulario { position: sticky; top: 16px; }
-  .modo-edicion { border: 2px solid var(--oro); }
-
-  .campo { margin-bottom: 12px; }
-  .campo label, .campo .etiqueta {
-    display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; color: var(--texto);
-  }
-  .campo label .req { color: var(--rojo); }
-  .campo input[type="text"], .campo input[type="tel"], .campo input[type="date"],
-  .campo select, .campo textarea, .buscador input, .buscador select {
-    width: 100%; border: 1.5px solid var(--borde); border-radius: 10px;
-    padding: 10px 12px; background: #fff; outline: none; transition: border-color .15s, box-shadow .15s;
-  }
-  .campo textarea { min-height: 70px; resize: vertical; }
-  .campo input:focus, .campo select:focus, .campo textarea:focus,
-  .buscador input:focus, .buscador select:focus {
-    border-color: var(--azul); box-shadow: 0 0 0 3px rgba(1,73,143,0.15);
-  }
-  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  .opciones { display: flex; gap: 8px; }
-  .opciones label {
-    flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-    border: 1.5px solid var(--borde); border-radius: 10px; padding: 9px; cursor: pointer;
-    font-weight: 700; font-size: 14px; margin: 0;
-  }
-  .opciones input { accent-color: var(--azul); }
-  .opciones label:has(input:checked) { border-color: var(--azul); background: var(--azul-claro); color: var(--azul-oscuro); }
-
-  .check {
-    display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--suave);
-    margin: 4px 0 10px; cursor: pointer;
-  }
-  .check input { margin-top: 3px; accent-color: var(--azul); width: 16px; height: 16px; flex: none; }
-  .check b { color: var(--texto); }
-  .autoriza { background: var(--oro-claro); border-radius: 10px; padding: 10px 12px; }
-
-  .botones { display: flex; gap: 8px; flex-wrap: wrap; }
   .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    border: 0; border-radius: 10px; padding: 11px 16px; font-weight: 800; font-size: 14px;
-    cursor: pointer; transition: transform .05s, background .15s, box-shadow .15s; text-decoration: none;
-    white-space: nowrap;
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-radius: 12px;
+    padding: 12px 16px; font-weight: 800; font-size: 15px; cursor: pointer; white-space: nowrap;
   }
-  .btn:active { transform: translateY(1px); }
-  .btn svg { width: 17px; height: 17px; flex: none; }
-  .btn-principal { background: var(--azul); color: #fff; flex: 1; }
-  .btn-principal:hover { background: var(--azul-oscuro); }
+  .btn svg { width: 18px; height: 18px; }
+  .btn-azul { background: var(--azul); color: #fff; width: 100%; font-size: 17px; padding: 14px; }
+  .btn-azul:active { background: var(--azul-oscuro); }
   .btn-oro { background: var(--oro); color: var(--azul-oscuro); }
-  .btn-oro:hover { background: #e9ad00; }
   .btn-claro { background: var(--azul-claro); color: var(--azul-oscuro); }
-  .btn-claro:hover { background: #d8e5f4; }
   .btn-linea { background: #fff; color: var(--suave); border: 1.5px solid var(--borde); }
-  .btn-linea:hover { border-color: var(--suave); color: var(--texto); }
-  .btn-peligro { background: #fff; color: var(--rojo); border: 1.5px solid #f0c7c2; }
-  .btn-peligro:hover { background: #fdf0ee; }
+  .botones { display: flex; gap: 8px; }
+  .nota { font-size: 12.5px; color: var(--suave); margin: 10px 0 0; }
 
-  /* ---------- Lista ---------- */
-  .cabeza-lista { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-  .cabeza-lista h2 { margin: 0; }
-  .buscador { display: grid; grid-template-columns: 1fr 170px; gap: 10px; margin-bottom: 14px; }
+  .titulo-lista { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .titulo-lista h2 { margin: 0; font-size: 18px; color: var(--azul-oscuro); }
+  .titulo-lista span { font-size: 13px; color: var(--suave); font-weight: 700; }
 
-  .tabla-caja { overflow-x: auto; border: 1px solid var(--borde); border-radius: 12px; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  thead th {
-    background: var(--azul); color: #fff; text-align: left; font-weight: 700;
-    padding: 10px 12px; font-size: 12.5px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap;
+  ol { list-style: none; margin: 12px 0 0; padding: 0; }
+  li { display: flex; align-items: center; gap: 12px; padding: 11px 4px; border-top: 1px solid var(--borde); }
+  li:first-child { border-top: 0; }
+  .num { width: 30px; flex: none; text-align: center; font-weight: 800; color: var(--suave); font-size: 13px; }
+  .datos { flex: 1; min-width: 0; }
+  .datos b { display: block; color: var(--azul-oscuro); overflow-wrap: anywhere; }
+  .datos span { font-size: 14px; color: var(--suave); }
+  .acc { display: flex; gap: 6px; flex: none; }
+  .ico {
+    width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--borde); background: #fff;
+    display: inline-flex; align-items: center; justify-content: center; color: var(--suave); cursor: pointer;
   }
-  tbody td { padding: 10px 12px; border-top: 1px solid var(--borde); vertical-align: top; }
-  tbody tr:nth-child(even) td { background: #f9fbfd; }
-  tbody tr:hover td { background: var(--azul-claro); }
-  .nombre { font-weight: 800; color: var(--azul-oscuro); }
-  td.col-fecha { white-space: nowrap; }
-  td.col-nombre { min-width: 170px; }
-  .nota { display: block; font-size: 12.5px; color: var(--suave); margin-top: 3px; }
-  .pild {
-    display: inline-block; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 2px 9px; white-space: nowrap;
-  }
-  .pild-nuevo { background: var(--oro-claro); color: #8a6500; }
-  .pild-vuelve { background: #e3f4ea; color: var(--verde); }
-  .pild-visita { background: var(--azul-claro); color: var(--azul); margin-top: 4px; }
-  .acciones { display: flex; gap: 6px; justify-content: flex-end; }
-  .icono {
-    width: 34px; height: 34px; border-radius: 9px; border: 1.5px solid var(--borde); background: #fff;
-    display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--suave);
-  }
-  .icono:hover { border-color: var(--azul); color: var(--azul); }
-  .icono.wa:hover { border-color: #25d366; color: #128c4a; }
-  .icono.borrar:hover { border-color: var(--rojo); color: var(--rojo); }
-  .icono svg { width: 16px; height: 16px; }
+  .ico svg { width: 17px; height: 17px; }
+  .ico.wa { color: #128c4a; }
+  .ico.borrar:hover { color: var(--rojo); border-color: var(--rojo); }
+  .vacio { text-align: center; color: var(--suave); padding: 26px 10px; }
 
-  .vacio { text-align: center; padding: 34px 16px; color: var(--suave); }
-  .vacio img { width: 90px; opacity: .35; filter: grayscale(1); }
+  .herr { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 
-  .herramientas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-  .pie-nota { font-size: 12.5px; color: var(--suave); margin-top: 12px; }
-
-  footer { text-align: center; color: var(--suave); font-size: 13px; padding: 10px 20px 30px; }
-  footer em { color: var(--azul); font-style: normal; font-weight: 700; }
-
-  /* ---------- Aviso ---------- */
   .aviso {
-    position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 140%);
-    background: var(--azul-oscuro); color: #fff; padding: 12px 18px; border-radius: 12px;
-    font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,.25); transition: transform .25s;
-    z-index: 50; max-width: calc(100% - 32px); border-left: 5px solid var(--oro);
-    opacity: 0; visibility: hidden;
+    position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 150%); opacity: 0; visibility: hidden;
+    background: var(--azul-oscuro); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 700;
+    border-left: 5px solid var(--oro); box-shadow: 0 10px 30px rgba(0,0,0,.25); transition: .25s; z-index: 9;
+    max-width: calc(100% - 32px);
   }
   .aviso.ver { transform: translate(-50%, 0); opacity: 1; visibility: visible; }
 
-  /* ---------- Diálogo ---------- */
-  dialog {
-    border: 0; border-radius: 16px; padding: 22px; width: min(420px, calc(100% - 32px));
-    box-shadow: 0 20px 60px rgba(0,0,0,.3);
-  }
-  dialog::backdrop { background: rgba(1, 30, 60, .45); }
-  dialog h3 { margin: 0 0 12px; color: var(--azul-oscuro); }
-
-  /* ---------- Planilla impresa ---------- */
-  .solo-impresion { display: none; }
-
-  @media (max-width: 920px) {
-    .rejilla { grid-template-columns: 1fr; }
-    .formulario { position: static; }
-  }
-  @media (max-width: 640px) {
-    main { padding: 14px; }
-    .encabezado-in { padding: 14px 14px 18px; gap: 12px; }
-    .logo-caja img { width: 78px; }
-    .resumen { gap: 8px; }
-    .dato { padding: 10px 12px; }
-    .dato b { font-size: 22px; }
-    .dato span { font-size: 12px; }
-    .buscador { grid-template-columns: 1fr; }
-    /* Tabla convertida en tarjetas */
-    .tabla-caja { border: 0; overflow: visible; }
-    table, tbody, tr, td { display: block; width: 100%; }
-    thead { display: none; }
-    tbody tr {
-      border: 1px solid var(--borde); border-radius: 12px; margin-bottom: 10px; padding: 8px 4px;
-      background: #fff;
-    }
-    tbody tr:nth-child(even) td, tbody tr:hover td { background: transparent; }
-    tbody td { border: 0; padding: 4px 10px; display: flex; gap: 10px; }
-    tbody td::before {
-      content: attr(data-l); flex: 0 0 92px; font-size: 12px; font-weight: 700; color: var(--suave);
-      text-transform: uppercase; letter-spacing: .3px; padding-top: 2px;
-    }
-    tbody td.sin-etiqueta::before { display: none; }
-    tbody td.sin-etiqueta { padding-top: 8px; }
-  }
-
+  .imprimir { display: none; }
   @media print {
-    @page { size: landscape; margin: 10mm; }
-    body { background: #fff; }
-    .encabezado, main, footer, .aviso, dialog { display: none !important; }
-    .solo-impresion { display: block; }
-    body.imprimir-lista #planillaVacia { display: none; }
-    body.imprimir-vacia #listaImpresa { display: none; }
-    .imp-cab { display: flex; align-items: center; gap: 16px; border-bottom: 3px solid var(--oro); padding-bottom: 8px; margin-bottom: 8px; }
-    .imp-cab img { width: 95px; }
-    .imp-cab h1 { margin: 0; font-size: 20px; color: var(--azul-oscuro); }
-    .imp-cab p { margin: 2px 0 0; font-size: 12px; color: #333; }
-    .imp-linea { display: flex; gap: 30px; font-size: 12px; margin: 6px 0 8px; }
-    .imp-linea span { flex: 1; border-bottom: 1px solid #555; padding-bottom: 2px; }
-    .imp-tabla { width: 100%; border-collapse: collapse; font-size: 10.5px; }
-    .imp-tabla th { background: var(--azul) !important; color: #fff !important; padding: 5px; border: 1px solid #555; text-align: left; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .imp-tabla td { border: 1px solid #777; padding: 4px 5px; height: 24px; vertical-align: top; }
-    .imp-tabla td.num { width: 22px; text-align: center; color: #666; }
-    #planillaVacia .imp-tabla td { height: 30px; }
-    .imp-pie { font-size: 9.5px; color: #444; margin-top: 6px; }
-    .imp-cab, .imp-tabla th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { margin: 12mm; }
+    header, main, .aviso { display: none !important; }
+    .imprimir { display: block; }
+    body.p-lista #pVacia, body.p-vacia #pLista { display: none; }
+    .p-cab { display: flex; align-items: center; gap: 14px; border-bottom: 3px solid var(--oro); padding-bottom: 8px; margin-bottom: 10px; }
+    .p-cab img { width: 90px; }
+    .p-cab h1 { margin: 0; font-size: 20px; color: var(--azul-oscuro); }
+    .p-cab p { margin: 2px 0 0; font-size: 12px; }
+    .p-fecha { font-size: 12px; margin: 0 0 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th { background: var(--azul); color: #fff; text-align: left; padding: 6px; border: 1px solid #555; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    td { border: 1px solid #777; padding: 5px 6px; height: 26px; }
+    td:first-child { width: 34px; text-align: center; color: #666; }
+    #pVacia td { height: 30px; }
+    .p-cab { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
 <body>
 
-<header class="encabezado">
-  <div class="encabezado-in">
-    <div class="logo-caja"><img src="assets/logo-ipuc.png" alt="Logo Iglesia Pentecostal Unida de Colombia"></div>
-    <div class="titulos">
+<header>
+  <div class="cab">
+    <div class="logo"><img src="assets/logo-ipuc.png" alt="Logo Iglesia Pentecostal Unida de Colombia"></div>
+    <div>
       <small>Iglesia Pentecostal Unida de Colombia</small>
-      <h1>Registro de Visitantes</h1>
-      <button class="congregacion" id="btnCongregacion" type="button" title="Cambiar el nombre de la congregación">
-        <span id="txtCongregacion">IPUC</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-      </button>
+      <h1>Registro</h1>
+      <button class="cong" id="btnCong" type="button" title="Cambiar nombre de la congregación">IPUC ✎</button>
     </div>
   </div>
 </header>
 
 <main>
-  <section class="resumen" aria-label="Resumen">
-    <div class="dato"><b id="nTotal">0</b><span>Total registrados</span></div>
-    <div class="dato"><b id="nHoy">0</b><span>Registrados hoy</span></div>
-    <div class="dato"><b id="nNuevos">0</b><span>Primera vez (hoy)</span></div>
+  <div class="conteo">
+    <div><b id="nTotal">0</b><span>Registrados</span></div>
+    <div><b id="nHoy">0</b><span>Hoy</span></div>
+  </div>
+
+  <section class="tarjeta">
+    <form id="form" autocomplete="off">
+      <div class="fila">
+        <div class="campo">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" placeholder="Ej: María Fernanda Pérez" autocapitalize="words" enterkeyhint="next">
+        </div>
+        <div class="campo">
+          <label for="telefono">Número de teléfono</label>
+          <input type="tel" id="telefono" inputmode="tel" placeholder="300 000 0000" enterkeyhint="done">
+        </div>
+      </div>
+      <div class="botones">
+        <button class="btn btn-azul" type="submit" id="btnGuardar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span>Registrar</span>
+        </button>
+        <button class="btn btn-linea" type="button" id="btnCancelar" hidden>Cancelar</button>
+      </div>
+    </form>
   </section>
 
-  <div class="rejilla">
-    <!-- Formulario -->
-    <section class="tarjeta formulario" id="cajaForm">
-      <h2 id="tituloForm">Nuevo visitante</h2>
-      <form id="form" autocomplete="off" novalidate>
-        <input type="hidden" id="id">
-        <div class="campo">
-          <label for="nombre">Nombre completo <span class="req">*</span></label>
-          <input type="text" id="nombre" placeholder="Ej: María Fernanda Pérez" required>
-        </div>
-        <div class="dos">
-          <div class="campo">
-            <label for="telefono">Teléfono / WhatsApp</label>
-            <input type="tel" id="telefono" inputmode="tel" placeholder="300 000 0000">
-          </div>
-          <div class="campo">
-            <label for="edad">Edad</label>
-            <select id="edad">
-              <option value="">—</option>
-              <option>Niño(a) 0-11</option>
-              <option>Adolescente 12-17</option>
-              <option>Joven 18-29</option>
-              <option>Adulto 30-59</option>
-              <option>Adulto mayor 60+</option>
-            </select>
-          </div>
-        </div>
-        <div class="campo">
-          <label for="direccion">Dirección / Barrio</label>
-          <input type="text" id="direccion" placeholder="Barrio, calle o vereda">
-        </div>
-        <div class="campo">
-          <label for="invitado">¿Quién lo invitó?</label>
-          <input type="text" id="invitado" placeholder="Nombre del hermano(a) o cómo se enteró">
-        </div>
-        <div class="dos">
-          <div class="campo">
-            <label for="fecha">Fecha</label>
-            <input type="date" id="fecha">
-          </div>
-          <div class="campo">
-            <label for="servicio">Servicio</label>
-            <select id="servicio">
-              <option>Culto dominical</option>
-              <option>Escuela dominical</option>
-              <option>Culto de oración</option>
-              <option>Culto de jóvenes</option>
-              <option>Culto de damas</option>
-              <option>Culto de caballeros</option>
-              <option>Culto de niños</option>
-              <option>Campaña / evento especial</option>
-              <option>Otro</option>
-            </select>
-          </div>
-        </div>
-        <div class="campo">
-          <span class="etiqueta">¿Es su primera vez?</span>
-          <div class="opciones">
-            <label><input type="radio" name="primera" value="si" checked> Sí</label>
-            <label><input type="radio" name="primera" value="no"> No, ya ha venido</label>
-          </div>
-        </div>
-        <div class="campo">
-          <label for="peticion">Petición de oración</label>
-          <textarea id="peticion" placeholder="Opcional"></textarea>
-        </div>
-        <label class="check"><input type="checkbox" id="visita"> <span><b>Desea recibir visita</b> o que lo contacten</span></label>
-        <label class="check autoriza"><input type="checkbox" id="autoriza"> <span><b>Autoriza el uso de sus datos</b> para que la iglesia lo contacte (Ley 1581 de 2012). <span class="req" style="color:var(--rojo)">*</span></span></label>
-        <div class="botones">
-          <button class="btn btn-principal" type="submit" id="btnGuardar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-            <span>Registrar</span>
-          </button>
-          <button class="btn btn-linea" type="button" id="btnCancelar" hidden>Cancelar</button>
-        </div>
-      </form>
-    </section>
+  <section class="tarjeta">
+    <div class="titulo-lista">
+      <h2>Lista de registrados</h2>
+      <span id="nMostrando"></span>
+    </div>
+    <input type="search" id="buscar" placeholder="Buscar por nombre o número…">
+    <ol id="lista"></ol>
+    <div class="vacio" id="vacio">Todavía no hay nadie registrado.</div>
 
-    <!-- Lista -->
-    <section class="tarjeta">
-      <div class="cabeza-lista">
-        <h2>Visitantes registrados</h2>
-        <span class="pild pild-vuelve" id="nMostrando">0 mostrados</span>
-      </div>
-      <div class="buscador">
-        <input type="search" id="buscar" placeholder="Buscar por nombre, teléfono, barrio o quién lo invitó…">
-        <select id="filtro">
-          <option value="todos">Todas las fechas</option>
-          <option value="hoy">Solo hoy</option>
-          <option value="semana">Últimos 7 días</option>
-          <option value="mes">Este mes</option>
-          <option value="nuevos">Solo primera vez</option>
-          <option value="visita">Desean visita</option>
-        </select>
-      </div>
-      <div class="tabla-caja">
-        <table>
-          <thead>
-            <tr>
-              <th>Fecha</th><th>Nombre</th><th>Teléfono</th><th>Barrio</th><th>Invitado por</th><th></th>
-            </tr>
-          </thead>
-          <tbody id="cuerpo"></tbody>
-        </table>
-        <div class="vacio" id="vacio">
-          <img src="assets/favicon.png" alt="">
-          <p>Aún no hay visitantes con este filtro.<br>Registra el primero con el formulario.</p>
-        </div>
-      </div>
-
-      <div class="herramientas">
-        <button class="btn btn-oro" id="btnExcel" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
-          Descargar Excel
-        </button>
-        <button class="btn btn-claro" id="btnImprimir" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          Imprimir lista
-        </button>
-        <button class="btn btn-claro" id="btnPlanilla" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
-          Planilla en blanco
-        </button>
-        <button class="btn btn-linea" id="btnRespaldo" type="button">Copia de seguridad</button>
-        <button class="btn btn-linea" id="btnRestaurar" type="button">Restaurar copia</button>
-        <input type="file" id="archivo" accept=".json,application/json" hidden>
-      </div>
-      <p class="pie-nota">Los registros se guardan en <b>este dispositivo</b> (en el navegador). Para pasarlos a otro celular o computador, usa <b>Copia de seguridad</b> y luego <b>Restaurar copia</b> en el otro equipo. Descarga el Excel cada cierto tiempo para no perder nada.</p>
-    </section>
-  </div>
+    <div class="herr">
+      <button class="btn btn-oro" id="btnExcel" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+        Descargar Excel
+      </button>
+      <button class="btn btn-claro" id="btnImprimir" type="button">Imprimir lista</button>
+      <button class="btn btn-claro" id="btnPlanilla" type="button">Planilla en blanco</button>
+      <button class="btn btn-linea" id="btnRespaldo" type="button">Copia de seguridad</button>
+      <button class="btn btn-linea" id="btnRestaurar" type="button">Restaurar copia</button>
+      <input type="file" id="archivo" accept=".json,application/json" hidden>
+    </div>
+    <p class="nota">Los registros se guardan en este dispositivo. Descarga el Excel o la copia de seguridad de vez en cuando para no perderlos.</p>
+  </section>
 </main>
 
-<footer>«Un Señor, una fe, un bautismo» · <em>Efesios 4:5</em></footer>
-
-<!-- Impresión: lista de registrados -->
-<section class="solo-impresion" id="listaImpresa">
-  <div class="imp-cab">
-    <img src="assets/logo-ipuc.png" alt="">
-    <div>
-      <h1>Registro de Visitantes</h1>
-      <p class="impCongregacion"></p>
-      <p id="impFiltro"></p>
-    </div>
-  </div>
-  <table class="imp-tabla">
-    <thead><tr><th>#</th><th>Fecha</th><th>Nombre</th><th>Teléfono</th><th>Edad</th><th>Dirección / Barrio</th><th>Invitado por</th><th>Servicio</th><th>1ª vez</th><th>Visita</th><th>Petición de oración</th></tr></thead>
-    <tbody id="impCuerpo"></tbody>
-  </table>
+<section class="imprimir" id="pLista">
+  <div class="p-cab"><img src="assets/logo-ipuc.png" alt=""><div><h1>Registro</h1><p class="pCong"></p></div></div>
+  <p class="p-fecha" id="pInfo"></p>
+  <table><thead><tr><th>#</th><th>Nombre completo</th><th>Número de teléfono</th></tr></thead><tbody id="pCuerpo"></tbody></table>
 </section>
 
-<!-- Impresión: planilla en blanco -->
-<section class="solo-impresion" id="planillaVacia">
-  <div class="imp-cab">
-    <img src="assets/logo-ipuc.png" alt="">
-    <div>
-      <h1>Planilla de Registro de Visitantes</h1>
-      <p class="impCongregacion"></p>
-    </div>
-  </div>
-  <div class="imp-linea"><span>Fecha:</span><span>Servicio:</span><span>Responsable:</span></div>
-  <table class="imp-tabla">
-    <thead><tr><th>#</th><th style="width:20%">Nombre completo</th><th style="width:11%">Teléfono</th><th style="width:15%">Dirección / Barrio</th><th style="width:13%">Invitado por</th><th style="width:5%">1ª vez</th><th style="width:5%">Visita</th><th>Petición de oración</th><th style="width:9%">Firma (autoriza datos)</th></tr></thead>
-    <tbody id="vaciaCuerpo"></tbody>
-  </table>
-  <p class="imp-pie">Al firmar, la persona autoriza a la iglesia a usar sus datos solo para contactarla y acompañarla espiritualmente, conforme a la Ley 1581 de 2012.</p>
+<section class="imprimir" id="pVacia">
+  <div class="p-cab"><img src="assets/logo-ipuc.png" alt=""><div><h1>Registro</h1><p class="pCong"></p></div></div>
+  <p class="p-fecha">Fecha: ______________________</p>
+  <table><thead><tr><th>#</th><th style="width:62%">Nombre completo</th><th>Número de teléfono</th></tr></thead><tbody id="vCuerpo"></tbody></table>
 </section>
-
-<dialog id="dlgCongregacion">
-  <h3>Nombre de la congregación</h3>
-  <form method="dialog" id="formCong">
-    <div class="campo">
-      <label for="inCong">Aparece en el encabezado y en lo que imprimas</label>
-      <input type="text" id="inCong" placeholder="Ej: IPUC Fonseca Tercera">
-    </div>
-    <div class="botones">
-      <button class="btn btn-principal" value="ok">Guardar</button>
-      <button class="btn btn-linea" value="cancel" formnovalidate>Cancelar</button>
-    </div>
-  </form>
-</dialog>
 
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
 
 <script>
 (function () {
   "use strict";
-
-  const CLAVE = "ipuc_visitantes_v1";
+  const CLAVE = "ipuc_registro_simple_v1";
   const CLAVE_CONG = "ipuc_congregacion_v1";
   const $ = (s) => document.querySelector(s);
 
-  /* ---------- Almacenamiento (con respaldo en memoria) ---------- */
-  const memoria = {};
-  function leer(clave, porDefecto) {
-    try {
-      const v = localStorage.getItem(clave);
-      return v === null ? porDefecto : JSON.parse(v);
-    } catch (e) {
-      return clave in memoria ? memoria[clave] : porDefecto;
-    }
+  const mem = {};
+  function leer(k, def) {
+    try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); }
+    catch (e) { return k in mem ? mem[k] : def; }
   }
-  function escribir(clave, valor) {
-    memoria[clave] = valor;
-    try { localStorage.setItem(clave, JSON.stringify(valor)); return true; }
-    catch (e) { return false; }
+  function escribir(k, v) {
+    mem[k] = v;
+    try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; }
   }
 
-  let visitantes = leer(CLAVE, []);
-  if (!Array.isArray(visitantes)) visitantes = [];
-  let congregacion = leer(CLAVE_CONG, "IPUC");
+  let gente = leer(CLAVE, []);
+  if (!Array.isArray(gente)) gente = [];
+  let cong = leer(CLAVE_CONG, "IPUC");
 
-  /* ---------- Utilidades ---------- */
-  const hoyISO = () => {
-    const d = new Date();
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-  };
+  const hoyISO = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
   const nuevoId = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
   const esc = (t) => String(t == null ? "" : t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const sinTildes = (t) => String(t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
-  const fechaBonita = (iso) => {
-    if (!iso) return "";
-    const [a, m, d] = iso.split("-");
-    return Number(d) + " " + MESES[Number(m) - 1] + " " + a;
-  };
-  const soloDigitos = (t) => String(t || "").replace(/\D/g, "");
-  function enlaceWhatsApp(tel, nombre) {
-    let n = soloDigitos(tel);
+  const fechaBonita = (iso) => { if (!iso) return ""; const [a, m, d] = iso.split("-"); return Number(d) + " " + MESES[Number(m) - 1] + " " + a; };
+
+  function wa(tel) {
+    let n = String(tel || "").replace(/\D/g, "");
     if (!n) return "";
     if (n.length === 10 && n[0] === "3") n = "57" + n;
-    const primerNombre = (nombre || "").trim().split(/\s+/)[0] || "";
-    const msg = "¡Hola " + primerNombre + "! Te saludamos de la " + congregacion + ". Fue una bendición tenerte con nosotros. Dios te bendiga.";
-    return "https://wa.me/" + n + "?text=" + encodeURIComponent(msg);
+    return "https://wa.me/" + n;
   }
 
-  let tAviso;
-  function aviso(texto) {
-    const el = $("#aviso");
-    el.textContent = texto;
-    el.classList.add("ver");
-    clearTimeout(tAviso);
-    tAviso = setTimeout(() => el.classList.remove("ver"), 2600);
-  }
+  let t;
+  function aviso(txt) { const el = $("#aviso"); el.textContent = txt; el.classList.add("ver"); clearTimeout(t); t = setTimeout(() => el.classList.remove("ver"), 2400); }
+  function guardar() { if (!escribir(CLAVE, gente)) aviso("Este navegador no permite guardar. Descarga el Excel antes de cerrar."); }
 
-  function guardarTodo() {
-    if (!escribir(CLAVE, visitantes)) {
-      aviso("Ojo: este navegador no permite guardar. Descarga el Excel antes de cerrar.");
-    }
+  function pintarCong() {
+    $("#btnCong").textContent = cong + " ✎";
+    document.querySelectorAll(".pCong").forEach((el) => (el.textContent = cong));
+    document.title = "Registro · " + cong;
   }
-
-  /* ---------- Congregación ---------- */
-  function pintarCongregacion() {
-    $("#txtCongregacion").textContent = congregacion;
-    document.querySelectorAll(".impCongregacion").forEach((el) => (el.textContent = congregacion));
-    document.title = "Registro de Visitantes · " + congregacion;
-  }
-  $("#btnCongregacion").addEventListener("click", () => {
-    $("#inCong").value = congregacion;
-    $("#dlgCongregacion").showModal();
-    setTimeout(() => $("#inCong").select(), 30);
-  });
-  $("#dlgCongregacion").addEventListener("close", () => {
-    if ($("#dlgCongregacion").returnValue === "ok") {
-      const v = $("#inCong").value.trim();
-      congregacion = v || "IPUC";
-      escribir(CLAVE_CONG, congregacion);
-      pintarCongregacion();
-      aviso("Nombre de la congregación actualizado");
-    }
+  $("#btnCong").addEventListener("click", () => {
+    const v = prompt("Nombre de la congregación:", cong);
+    if (v === null) return;
+    cong = v.trim() || "IPUC";
+    escribir(CLAVE_CONG, cong);
+    pintarCong();
   });
 
-  /* ---------- Formulario ---------- */
-  const form = $("#form");
-  function limpiarForm() {
-    form.reset();
-    $("#id").value = "";
-    $("#fecha").value = ultimaFecha || hoyISO();
-    $("#servicio").value = ultimoServicio || "Culto dominical";
-    $("#tituloForm").textContent = "Nuevo visitante";
+  let editando = "";
+  function limpiar() {
+    $("#form").reset();
+    editando = "";
     $("#btnGuardar span").textContent = "Registrar";
     $("#btnCancelar").hidden = true;
-    $("#cajaForm").classList.remove("modo-edicion");
   }
-  // Recordar fecha y servicio para registrar a muchas personas seguidas
-  let ultimaFecha = "";
-  let ultimoServicio = "";
 
-  form.addEventListener("submit", (e) => {
+  $("#nombre").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); $("#telefono").focus(); }
+  });
+
+  $("#form").addEventListener("submit", (e) => {
     e.preventDefault();
     const nombre = $("#nombre").value.trim().replace(/\s+/g, " ");
-    if (!nombre) { aviso("Escribe el nombre del visitante"); $("#nombre").focus(); return; }
-    if (!$("#autoriza").checked) { aviso("Falta marcar la autorización de datos"); $("#autoriza").focus(); return; }
+    const telefono = $("#telefono").value.trim();
+    if (!nombre) { aviso("Escribe el nombre completo"); $("#nombre").focus(); return; }
+    if (!telefono) { aviso("Escribe el número de teléfono"); $("#telefono").focus(); return; }
 
-    const datos = {
-      nombre,
-      telefono: $("#telefono").value.trim(),
-      edad: $("#edad").value,
-      direccion: $("#direccion").value.trim(),
-      invitado: $("#invitado").value.trim(),
-      fecha: $("#fecha").value || hoyISO(),
-      servicio: $("#servicio").value,
-      primeraVez: form.primera.value === "si",
-      peticion: $("#peticion").value.trim(),
-      visita: $("#visita").checked,
-      autoriza: true
-    };
-    ultimaFecha = datos.fecha;
-    ultimoServicio = datos.servicio;
-
-    const id = $("#id").value;
-    if (id) {
-      const i = visitantes.findIndex((v) => v.id === id);
-      if (i > -1) visitantes[i] = Object.assign({}, visitantes[i], datos, { actualizado: new Date().toISOString() });
-      aviso("Datos de " + nombre + " actualizados");
+    if (editando) {
+      const p = gente.find((x) => x.id === editando);
+      if (p) { p.nombre = nombre; p.telefono = telefono; }
+      aviso("Cambios guardados");
     } else {
-      visitantes.push(Object.assign({ id: nuevoId(), creado: new Date().toISOString() }, datos));
+      gente.push({ id: nuevoId(), nombre, telefono, fecha: hoyISO(), creado: new Date().toISOString() });
       aviso("✓ " + nombre + " registrado(a)");
     }
-    guardarTodo();
-    limpiarForm();
+    guardar();
+    limpiar();
     pintar();
     $("#nombre").focus();
   });
+  $("#btnCancelar").addEventListener("click", limpiar);
 
-  $("#btnCancelar").addEventListener("click", limpiarForm);
-
-  function editar(id) {
-    const v = visitantes.find((x) => x.id === id);
-    if (!v) return;
-    $("#id").value = v.id;
-    $("#nombre").value = v.nombre;
-    $("#telefono").value = v.telefono || "";
-    $("#edad").value = v.edad || "";
-    $("#direccion").value = v.direccion || "";
-    $("#invitado").value = v.invitado || "";
-    $("#fecha").value = v.fecha || hoyISO();
-    $("#servicio").value = v.servicio || "Culto dominical";
-    form.primera.value = v.primeraVez ? "si" : "no";
-    $("#peticion").value = v.peticion || "";
-    $("#visita").checked = !!v.visita;
-    $("#autoriza").checked = !!v.autoriza;
-    $("#tituloForm").textContent = "Editar visitante";
-    $("#btnGuardar span").textContent = "Guardar cambios";
-    $("#btnCancelar").hidden = false;
-    $("#cajaForm").classList.add("modo-edicion");
-    $("#cajaForm").scrollIntoView({ behavior: "smooth", block: "start" });
-    setTimeout(() => $("#nombre").focus(), 300);
+  function ordenados() {
+    const q = sinTildes($("#buscar").value.trim());
+    const qNum = q.replace(/\D/g, "");
+    return gente
+      .filter((p) => !q || sinTildes(p.nombre).includes(q) || (qNum && String(p.telefono).replace(/\D/g, "").includes(qNum)))
+      .sort((a, b) => (b.creado || "").localeCompare(a.creado || ""));
   }
 
-  function borrar(id) {
-    const v = visitantes.find((x) => x.id === id);
-    if (!v) return;
-    if (!confirm("¿Eliminar el registro de " + v.nombre + "?")) return;
-    visitantes = visitantes.filter((x) => x.id !== id);
-    guardarTodo();
-    if ($("#id").value === id) limpiarForm();
-    pintar();
-    aviso("Registro eliminado");
-  }
-
-  /* ---------- Filtros y lista ---------- */
-  function filtrados() {
-    const q = $("#buscar").value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-    const f = $("#filtro").value;
-    const hoy = hoyISO();
-    const hace7 = new Date(); hace7.setDate(hace7.getDate() - 6);
-    const desde7 = hace7.getFullYear() + "-" + String(hace7.getMonth() + 1).padStart(2, "0") + "-" + String(hace7.getDate()).padStart(2, "0");
-    const mes = hoy.slice(0, 7);
-    return visitantes
-      .filter((v) => {
-        if (f === "hoy" && v.fecha !== hoy) return false;
-        if (f === "semana" && !(v.fecha >= desde7 && v.fecha <= hoy)) return false;
-        if (f === "mes" && (v.fecha || "").slice(0, 7) !== mes) return false;
-        if (f === "nuevos" && !v.primeraVez) return false;
-        if (f === "visita" && !v.visita) return false;
-        if (!q) return true;
-        const texto = [v.nombre, v.telefono, v.direccion, v.invitado, v.servicio, v.peticion].join(" ").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-        return texto.includes(q);
-      })
-      .sort((a, b) => (b.fecha || "").localeCompare(a.fecha || "") || (b.creado || "").localeCompare(a.creado || ""));
-  }
-
-  const ICO_EDITAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
-  const ICO_BORRAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>';
-  const ICO_WA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4a.5.5 0 0 0 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3Z"/></svg>';
+  const I_WA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4a.5.5 0 0 0 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3Z"/></svg>';
+  const I_EDIT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+  const I_DEL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>';
 
   function pintar() {
-    const lista = filtrados();
-    const hoy = hoyISO();
-    const deHoy = visitantes.filter((v) => v.fecha === hoy);
-    $("#nTotal").textContent = visitantes.length;
-    $("#nHoy").textContent = deHoy.length;
-    $("#nNuevos").textContent = deHoy.filter((v) => v.primeraVez).length;
-    $("#nMostrando").textContent = lista.length + (lista.length === 1 ? " mostrado" : " mostrados");
-
-    $("#cuerpo").innerHTML = lista.map((v) => {
-      const wa = enlaceWhatsApp(v.telefono, v.nombre);
-      return '<tr>' +
-        '<td data-l="Fecha" class="col-fecha"><div>' + esc(fechaBonita(v.fecha)) + (v.servicio ? '<span class="nota">' + esc(v.servicio) + '</span>' : '') + '</div></td>' +
-        '<td data-l="Nombre" class="col-nombre"><div><span class="nombre">' + esc(v.nombre) + '</span> ' +
-          (v.primeraVez ? '<span class="pild pild-nuevo">1ª vez</span>' : '<span class="pild pild-vuelve">Ya vino</span>') +
-          (v.visita ? '<br><span class="pild pild-visita">Desea visita</span>' : '') +
-          (v.edad ? '<span class="nota">' + esc(v.edad) + '</span>' : '') +
-          (v.peticion ? '<span class="nota">🙏 ' + esc(v.peticion) + '</span>' : '') +
-        '</div></td>' +
-        '<td data-l="Teléfono">' + esc(v.telefono || "—") + '</td>' +
-        '<td data-l="Barrio">' + esc(v.direccion || "—") + '</td>' +
-        '<td data-l="Invitado por">' + esc(v.invitado || "—") + '</td>' +
-        '<td class="sin-etiqueta"><div class="acciones">' +
-          (wa ? '<a class="icono wa" href="' + esc(wa) + '" target="_blank" rel="noopener" title="Escribir por WhatsApp">' + ICO_WA + '</a>' : '') +
-          '<button class="icono" type="button" data-editar="' + esc(v.id) + '" title="Editar">' + ICO_EDITAR + '</button>' +
-          '<button class="icono borrar" type="button" data-borrar="' + esc(v.id) + '" title="Eliminar">' + ICO_BORRAR + '</button>' +
-        '</div></td>' +
-      '</tr>';
+    const lista = ordenados();
+    const total = gente.length;
+    $("#nTotal").textContent = total;
+    $("#nHoy").textContent = gente.filter((p) => p.fecha === hoyISO()).length;
+    $("#nMostrando").textContent = $("#buscar").value.trim() ? lista.length + " encontrado(s)" : "";
+    const pos = new Map(gente.slice().sort((a, b) => (a.creado || "").localeCompare(b.creado || "")).map((p, i) => [p.id, i + 1]));
+    $("#lista").innerHTML = lista.map((p) => {
+      const link = wa(p.telefono);
+      return '<li><span class="num">' + pos.get(p.id) + '</span>' +
+        '<div class="datos"><b>' + esc(p.nombre) + '</b><span>' + esc(p.telefono) + '</span></div>' +
+        '<div class="acc">' +
+          (link ? '<a class="ico wa" href="' + esc(link) + '" target="_blank" rel="noopener" title="WhatsApp">' + I_WA + '</a>' : '') +
+          '<button class="ico" type="button" data-e="' + esc(p.id) + '" title="Editar">' + I_EDIT + '</button>' +
+          '<button class="ico borrar" type="button" data-b="' + esc(p.id) + '" title="Eliminar">' + I_DEL + '</button>' +
+        '</div></li>';
     }).join("");
-    $("#vacio").style.display = lista.length ? "none" : "block";
+    $("#vacio").hidden = lista.length > 0;
+    $("#vacio").textContent = total ? "No se encontró a nadie con esa búsqueda." : "Todavía no hay nadie registrado.";
   }
 
-  $("#cuerpo").addEventListener("click", (e) => {
+  $("#lista").addEventListener("click", (e) => {
     const b = e.target.closest("button");
     if (!b) return;
-    if (b.dataset.editar) editar(b.dataset.editar);
-    if (b.dataset.borrar) borrar(b.dataset.borrar);
+    const p = gente.find((x) => x.id === (b.dataset.e || b.dataset.b));
+    if (!p) return;
+    if (b.dataset.e) {
+      editando = p.id;
+      $("#nombre").value = p.nombre;
+      $("#telefono").value = p.telefono;
+      $("#btnGuardar span").textContent = "Guardar cambios";
+      $("#btnCancelar").hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => $("#nombre").focus(), 250);
+    } else if (confirm("¿Eliminar a " + p.nombre + " de la lista?")) {
+      gente = gente.filter((x) => x.id !== p.id);
+      if (editando === p.id) limpiar();
+      guardar();
+      pintar();
+      aviso("Eliminado de la lista");
+    }
   });
   $("#buscar").addEventListener("input", pintar);
-  $("#filtro").addEventListener("change", pintar);
 
-  /* ---------- Excel (CSV) ---------- */
   function descargar(nombre, contenido, tipo) {
-    const blob = new Blob([contenido], { type: tipo });
-    const url = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(new Blob([contenido], { type: tipo }));
     const a = document.createElement("a");
-    a.href = url; a.download = nombre;
-    document.body.appendChild(a); a.click(); a.remove();
+    a.href = url; a.download = nombre; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1500);
   }
-  const celda = (t) => '"' + String(t == null ? "" : t).replace(/"/g, '""').replace(/\r?\n/g, " ") + '"';
+  const celda = (t) => '"' + String(t == null ? "" : t).replace(/"/g, '""') + '"';
+  const enOrden = () => gente.slice().sort((a, b) => (a.creado || "").localeCompare(b.creado || ""));
 
   $("#btnExcel").addEventListener("click", () => {
-    const lista = filtrados().slice().reverse();
-    if (!lista.length) { aviso("No hay registros para descargar"); return; }
-    const cab = ["Fecha", "Nombre", "Teléfono", "Edad", "Dirección / Barrio", "Invitado por", "Servicio", "Primera vez", "Desea visita", "Petición de oración", "Autoriza datos"];
-    const filas = lista.map((v) => [v.fecha, v.nombre, v.telefono, v.edad, v.direccion, v.invitado, v.servicio, v.primeraVez ? "Sí" : "No", v.visita ? "Sí" : "No", v.peticion, v.autoriza ? "Sí" : "No"].map(celda).join(";"));
-    const csv = "﻿" + cab.map(celda).join(";") + "\r\n" + filas.join("\r\n");
-    descargar("visitantes-" + hoyISO() + ".csv", csv, "text/csv;charset=utf-8");
+    if (!gente.length) { aviso("No hay registros para descargar"); return; }
+    const filas = enOrden().map((p, i) => [i + 1, p.nombre, p.telefono, p.fecha].map(celda).join(";"));
+    descargar("registro-" + hoyISO() + ".csv", "﻿" + ["#", "Nombre completo", "Número de teléfono", "Fecha de registro"].map(celda).join(";") + "\r\n" + filas.join("\r\n"), "text/csv;charset=utf-8");
     aviso("Archivo descargado (se abre en Excel)");
   });
 
-  /* ---------- Impresión ---------- */
-  const TEXTO_FILTRO = { todos: "Todas las fechas", hoy: "Hoy", semana: "Últimos 7 días", mes: "Este mes", nuevos: "Solo primera vez", visita: "Desean visita" };
   $("#btnImprimir").addEventListener("click", () => {
-    const lista = filtrados().slice().reverse();
-    if (!lista.length) { aviso("No hay registros para imprimir"); return; }
-    $("#impFiltro").textContent = TEXTO_FILTRO[$("#filtro").value] + " · " + lista.length + " visitante(s) · Impreso el " + fechaBonita(hoyISO());
-    $("#impCuerpo").innerHTML = lista.map((v, i) =>
-      "<tr><td class='num'>" + (i + 1) + "</td><td>" + esc(fechaBonita(v.fecha)) + "</td><td>" + esc(v.nombre) + "</td><td>" + esc(v.telefono) +
-      "</td><td>" + esc(v.edad) + "</td><td>" + esc(v.direccion) + "</td><td>" + esc(v.invitado) + "</td><td>" + esc(v.servicio) +
-      "</td><td>" + (v.primeraVez ? "Sí" : "No") + "</td><td>" + (v.visita ? "Sí" : "No") + "</td><td>" + esc(v.peticion) + "</td></tr>"
-    ).join("");
-    document.body.className = "imprimir-lista";
+    if (!gente.length) { aviso("No hay registros para imprimir"); return; }
+    $("#pInfo").textContent = gente.length + " persona(s) · Impreso el " + fechaBonita(hoyISO());
+    $("#pCuerpo").innerHTML = enOrden().map((p, i) => "<tr><td>" + (i + 1) + "</td><td>" + esc(p.nombre) + "</td><td>" + esc(p.telefono) + "</td></tr>").join("");
+    document.body.className = "p-lista";
     window.print();
   });
   $("#btnPlanilla").addEventListener("click", () => {
-    let filas = "";
-    for (let i = 1; i <= 18; i++) filas += "<tr><td class='num'>" + i + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-    $("#vaciaCuerpo").innerHTML = filas;
-    document.body.className = "imprimir-vacia";
+    let f = "";
+    for (let i = 1; i <= 25; i++) f += "<tr><td>" + i + "</td><td></td><td></td></tr>";
+    $("#vCuerpo").innerHTML = f;
+    document.body.className = "p-vacia";
     window.print();
   });
   window.addEventListener("afterprint", () => { document.body.className = ""; });
 
-  /* ---------- Copia de seguridad ---------- */
   $("#btnRespaldo").addEventListener("click", () => {
-    if (!visitantes.length) { aviso("Todavía no hay registros"); return; }
-    const datos = { app: "ipuc-registro-visitantes", version: 1, congregacion, exportado: new Date().toISOString(), visitantes };
-    descargar("respaldo-visitantes-" + hoyISO() + ".json", JSON.stringify(datos, null, 2), "application/json");
+    if (!gente.length) { aviso("Todavía no hay registros"); return; }
+    descargar("respaldo-registro-" + hoyISO() + ".json", JSON.stringify({ app: "ipuc-registro", congregacion: cong, registros: gente }, null, 2), "application/json");
     aviso("Copia de seguridad descargada");
   });
   $("#btnRestaurar").addEventListener("click", () => $("#archivo").click());
   $("#archivo").addEventListener("change", (e) => {
     const f = e.target.files[0];
     if (!f) return;
-    const lector = new FileReader();
-    lector.onload = () => {
+    const r = new FileReader();
+    r.onload = () => {
       try {
-        const d = JSON.parse(lector.result);
-        const lista = Array.isArray(d) ? d : d.visitantes;
-        if (!Array.isArray(lista)) throw new Error("formato");
-        const ids = new Set(visitantes.map((v) => v.id));
-        let nuevos = 0;
-        lista.forEach((v) => {
-          if (!v || !v.nombre) return;
-          if (!v.id) v.id = nuevoId();
-          if (!ids.has(v.id)) { visitantes.push(v); ids.add(v.id); nuevos++; }
+        const d = JSON.parse(r.result);
+        const lista = Array.isArray(d) ? d : (d.registros || d.visitantes);
+        if (!Array.isArray(lista)) throw 0;
+        const ids = new Set(gente.map((p) => p.id));
+        let n = 0;
+        lista.forEach((p) => {
+          if (!p || !p.nombre) return;
+          const item = { id: p.id || nuevoId(), nombre: p.nombre, telefono: p.telefono || "", fecha: p.fecha || hoyISO(), creado: p.creado || new Date().toISOString() };
+          if (!ids.has(item.id)) { gente.push(item); ids.add(item.id); n++; }
         });
-        if (d.congregacion && congregacion === "IPUC") { congregacion = d.congregacion; escribir(CLAVE_CONG, congregacion); pintarCongregacion(); }
-        guardarTodo();
-        pintar();
-        aviso(nuevos ? "Se agregaron " + nuevos + " registro(s)" : "No había registros nuevos en esa copia");
-      } catch (err) {
-        aviso("Ese archivo no es una copia válida");
-      }
+        guardar(); pintar();
+        aviso(n ? "Se agregaron " + n + " registro(s)" : "No había registros nuevos");
+      } catch (err) { aviso("Ese archivo no es una copia válida"); }
       e.target.value = "";
     };
-    lector.readAsText(f);
+    r.readAsText(f);
   });
 
-  /* ---------- Inicio ---------- */
-  pintarCongregacion();
-  limpiarForm();
+  pintarCong();
   pintar();
 })();
 </script>
