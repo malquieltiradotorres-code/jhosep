@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inscripción a Juegos</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --card:#fff; --ink:#1f2937; --muted:#6b7280; --line:#d9d4c7;
+    --brand:#1d4ed8; --brand-ink:#fff; --ok:#15803d; --err:#b91c1c;
+    --ajedrez:#334155; --domino:#b45309; --bingo:#be185d;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14171c; --card:#1d2229; --ink:#e5e7eb; --muted:#9ca3af; --line:#333b46; --brand:#3b82f6; --ok:#4ade80; --err:#f87171; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1000px;margin:0 auto;padding:16px}
+  header{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:16px;text-align:center}
+  header h1{margin:0;font-size:1.5rem}
+  header p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media (max-width:760px){.grid{grid-template-columns:1fr}}
+  h2{margin:0 0 12px;font-size:1.1rem}
+  .panel{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:16px}
+  .games{display:grid;gap:12px}
+  .game{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;
+        background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:14px;font:inherit}
+  .game:hover{border-color:var(--c)}
+  .game[aria-checked="true"]{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 25%,transparent)}
+  .game .ico{flex:none;width:56px;height:56px;border-radius:12px;background:var(--c);color:#fff;display:grid;place-items:center;font-size:30px}
+  .game b{display:block;font-size:1.1rem}
+  .game small{color:var(--muted)}
+  .game[data-game="Ajedrez"]{--c:var(--ajedrez)} .game[data-game="Dominó"]{--c:var(--domino)} .game[data-game="Bingo"]{--c:var(--bingo)}
+  label{display:block;font-weight:600;margin:0 0 4px}
+  .field{margin-bottom:14px}
+  input[type=text],input[type=number],input[type=tel]{width:100%;padding:11px 12px;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:8px}
+  input:focus{outline:none;border-color:var(--brand)}
+  .chosen{padding:11px 12px;border:2px dashed var(--line);border-radius:8px;color:var(--muted)}
+  .chosen.has{border-style:solid;color:var(--ink);font-weight:600}
+  button.go{width:100%;padding:14px;font:inherit;font-weight:700;font-size:1.05rem;color:var(--brand-ink);background:var(--brand);border:0;border-radius:10px;cursor:pointer}
+  button.go:disabled{opacity:.6;cursor:wait}
+  .msg{margin-top:14px;padding:12px;border-radius:8px;display:none}
+  .msg.ok{display:block;background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+  .msg.err{display:block;background:color-mix(in srgb,var(--err) 15%,transparent);color:var(--err)}
+  .note{color:var(--muted);font-size:.85rem;margin:10px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎲 Inscripción a Juegos</h1>
+    <p>Elige <strong>un solo juego</strong>, completa tus datos y pulsa <em>Participar</em>.</p>
+  </header>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="t-juegos">
+      <h2 id="t-juegos">1. Elige tu juego</h2>
+      <div class="games" role="radiogroup" aria-label="Tipo de juego">
+        <button type="button" class="game" role="radio" aria-checked="false" data-game="Ajedrez"><span class="ico">♞</span><span><b>Ajedrez</b><small>Estrategia 1 contra 1</small></span></button>
+        <button type="button" class="game" role="radio" aria-checked="false" data-game="Dominó"><span class="ico">🁣</span><span><b>Dominó</b><small>Parejas o individual</small></span></button>
+        <button type="button" class="game" role="radio" aria-checked="false" data-game="Bingo"><span class="ico">🎱</span><span><b>Bingo</b><small>Suerte y atención</small></span></button>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="t-datos">
+      <h2 id="t-datos">2. Tus datos</h2>
+      <form id="f" novalidate>
+        <div class="field"><label for="nombre">Nombre y apellido</label><input id="nombre" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="ficha">Número de ficha</label><input id="ficha" type="text" inputmode="numeric" required></div>
+        <div class="field"><label for="doc">Número de documento</label><input id="doc" type="text" inputmode="numeric" required></div>
+        <div class="field"><label>Juego seleccionado</label><div id="chosen" class="chosen">Ninguno todavía</div></div>
+        <button class="go" id="go" type="submit">Participar</button>
+        <div id="msg" class="msg" role="status" aria-live="polite"></div>
+        <p class="note">Cada persona solo puede inscribirse en un juego.</p>
+      </form>
+    </section>
+  </div>
+</div>
+
+<script>
+/* ===== CONFIGURACIÓN (ver README.md) =====
+   FORM_URL: URL del Google Form terminada en /formResponse
+   ENTRY:    ids "entry.XXXX" de cada pregunta del formulario
+   CHECK_URL: (opcional) URL del Apps Script que revisa duplicados en la hoja */
+const CONFIG = {
+  FORM_URL: "https://docs.google.com/forms/d/e/PEGA_AQUI_EL_ID_DEL_FORM/formResponse",
+  ENTRY: { nombre:"entry.1111111111", ficha:"entry.2222222222", documento:"entry.3333333333", juego:"entry.4444444444" },
+  CHECK_URL: ""
+};
+
+const $ = id => document.getElementById(id);
+const msg = $("msg"), go = $("go");
+let juego = "";
+const KEY = "inscripciones_juegos";
+const saved = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
+
+document.querySelectorAll(".game").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".game").forEach(x => x.setAttribute("aria-checked", x === b));
+  juego = b.dataset.game;
+  $("chosen").textContent = juego; $("chosen").classList.add("has");
+}));
+
+function show(type, text){ msg.className = "msg " + type; msg.textContent = text; }
+const clean = v => v.trim().replace(/\s+/g, " ");
+
+$("f").addEventListener("submit", async e => {
+  e.preventDefault();
+  const nombre = clean($("nombre").value), ficha = $("ficha").value.trim(), doc = $("doc").value.replace(/\D/g, "");
+  if (!nombre.includes(" ")) return show("err", "Escribe nombre y apellido.");
+  if (!ficha) return show("err", "Escribe tu número de ficha.");
+  if (doc.length < 5) return show("err", "Revisa tu número de documento.");
+  if (!juego) return show("err", "Elige un juego.");
+
+  go.disabled = true; show("", ""); msg.className = "msg";
+  try {
+    // 1) Ya inscrito en este dispositivo
+    const prev = saved().find(r => r.doc === doc || r.ficha === ficha);
+    if (prev) return show("err", `Ya estás inscrito en ${prev.juego}. Solo se permite un juego por persona.`);
+
+    // 2) Ya inscrito en la hoja de respuestas (si hay Apps Script)
+    if (CONFIG.CHECK_URL) {
+      const r = await fetch(`${CONFIG.CHECK_URL}?documento=${encodeURIComponent(doc)}&ficha=${encodeURIComponent(ficha)}`);
+      const j = await r.json();
+      if (j.existe) return show("err", `Ya estás inscrito en ${j.juego || "otro juego"}. Solo se permite un juego por persona.`);
+    }
+
+    // 3) Enviar al Google Form
+    const body = new FormData();
+    body.append(CONFIG.ENTRY.nombre, nombre);
+    body.append(CONFIG.ENTRY.ficha, ficha);
+    body.append(CONFIG.ENTRY.documento, doc);
+    body.append(CONFIG.ENTRY.juego, juego);
+    await fetch(CONFIG.FORM_URL, { method:"POST", mode:"no-cors", body });
+
+    const list = saved(); list.push({ doc, ficha, juego });
+    try { localStorage.setItem(KEY, JSON.stringify(list)); } catch {}
+    show("ok", `¡Listo ${nombre.split(" ")[0]}! Quedaste inscrito en ${juego}.`);
+    $("f").reset(); juego = ""; $("chosen").textContent = "Ninguno todavía"; $("chosen").classList.remove("has");
+    document.querySelectorAll(".game").forEach(x => x.setAttribute("aria-checked", "false"));
+  } catch (err) {
+    show("err", "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.");
+  } finally { go.disabled = false; }
+});
+</script>
+</body>
+</html>
