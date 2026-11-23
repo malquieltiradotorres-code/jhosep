@@ -4,7 +4,8 @@ Página móvil (modo claro y oscuro) con 4 pantallas, todas en `index.html`:
 
 | Pantalla | Para quién | Qué hace |
 |---|---|---|
-| **Registro** | Participantes | Eliges Ajedrez, Dominó o Bingo, escribes nombre y apellido, ficha y documento, y pulsas *Participar*. |
+| **Registro** | Participantes | Tres botones (Ajedrez, Dominó, Bingo) abren la lista de participantes de cada juego. Abajo, el formulario: nombre y apellido, ficha, documento y una lista para elegir el juego. |
+| **Participantes** | Todos | Lista de inscritos de un juego, con pestañas para cambiar de juego y buscador. No muestra el documento. |
 | **Equipos** | Organizador | Lista de jugadores de Dominó y de las parejas sorteadas. |
 | **Sorteo** | Organizador | Mezcla a los jugadores al azar y arma las parejas (el dominó se inscribe de forma individual). |
 | **Llaves** | Organizador | Cuadro de eliminación directa. Toca una pareja para marcarla ganadora y avanza sola. |
@@ -18,8 +19,8 @@ Página móvil (modo claro y oscuro) con 4 pantallas, todas en `index.html`:
 - La página bloquea repetidos por documento o ficha en el mismo dispositivo.
 - Para bloquearlos desde cualquier dispositivo, pega `Code.gs` en la hoja de respuestas (Extensiones > Apps Script), publícalo como aplicación web y pon su URL en `CHECK_URL`.
 
-## 3. Que Equipos lea los inscritos de Dominó
-En la hoja de respuestas del Form: Archivo > Compartir > **Publicar en la web** > hoja de respuestas > formato **CSV**. Pon ese enlace en `SHEET_CSV_URL`. Columnas esperadas: A fecha, B nombre, C ficha, D documento, E juego. Sin esto, los jugadores se agregan a mano con **+ Jugador**.
+## 3. Que Participantes y Equipos lean todos los inscritos
+En la hoja de respuestas del Form: Archivo > Compartir > **Publicar en la web** > hoja de respuestas > formato **CSV**. Pon ese enlace en `SHEET_CSV_URL`. Columnas esperadas: A fecha, B nombre, C ficha, D documento, E juego. Sin esto, Participantes solo muestra a quienes se inscribieron desde ese mismo dispositivo, y en Equipos los jugadores se agregan a mano con **+ Jugador**.
 
 ## Importante
 - El sorteo y los resultados se guardan **solo en el navegador del organizador** (no se comparten entre dispositivos). Haz el sorteo en un solo dispositivo.
