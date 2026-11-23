@@ -2,172 +2,311 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>Torneo de Juegos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --felt:#0f5132; --felt2:#0b3d26; --wood:#5b3a1e; --cream:#fdf8ec; --ink:#1b1b1b; --muted:#6b6455;
-    --gold:#f5c542; --red:#c62828; --blue:#1d4ed8; --ok:#14532d; --err:#991b1b;
+    --bg:#fafafa; --card:#fff; --card2:#f4f4f5; --line:#e4e4e7; --ink:#09090b; --muted:#71717a;
+    --hero:#09090b; --hero-ink:#fff; --hero-mute:#d4d4d8;
+    --btn:#09090b; --btn-ink:#fff; --sel:#18181b; --sel-ink:#fff; --sel-mute:#d4d4d8;
+    --ok:#10b981; --err:#b91c1c; --okbg:#ecfdf5; --errbg:#fef2f2;
+    --radius:20px; --shadow:0 4px 20px -2px rgba(0,0,0,.06);
+    --f-head:"Space Grotesk",system-ui,sans-serif; --f-body:Inter,system-ui,sans-serif; --f-mono:"Space Mono",ui-monospace,monospace;
   }
-  *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.45 "Trebuchet MS",system-ui,sans-serif;
-    background:
-      radial-gradient(circle at 20% 10%,rgba(255,255,255,.08),transparent 40%),
-      repeating-linear-gradient(45deg,var(--felt) 0 14px,var(--felt2) 14px 28px);}
-  .wrap{max-width:1040px;margin:0 auto;padding:16px}
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0b0b0c; --card:#141416; --card2:#1c1c1e; --line:#2c2c2e; --ink:#fff; --muted:#8e8e93;
+      --hero:#1c1c1e; --hero-ink:#fff; --hero-mute:#c4c7c8;
+      --btn:#fff; --btn-ink:#0b0b0c; --sel:#fff; --sel-ink:#0b0b0c; --sel-mute:#48484a;
+      --ok:#34d399; --err:#ffb4ab; --okbg:#10291f; --errbg:#2a1412; --shadow:none;
+    }
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);letter-spacing:-.01em}
+  main{max-width:440px;margin:0 auto;padding:16px 12px 92px}
+  .screen{display:none;flex-direction:column;gap:16px}
+  .screen.on{display:flex}
+  h1,h2,h3{font-family:var(--f-head);margin:0}
+  .mono{font-family:var(--f-mono)}
+  svg{display:block}
 
-  /* Título */
-  header{background:var(--wood);border:4px solid var(--gold);border-radius:16px;padding:14px 18px;margin-bottom:18px;
-    text-align:center;color:var(--cream);box-shadow:0 6px 0 rgba(0,0,0,.35)}
-  header h1{margin:0;font-size:clamp(1.4rem,4vw,2.1rem);letter-spacing:1px;text-transform:uppercase}
-  header .icons{font-size:1.6rem;letter-spacing:10px}
-  header p{margin:4px 0 0;opacity:.9}
+  /* Cabecera */
+  .hero{background:var(--hero);color:var(--hero-ink);border-radius:24px;padding:22px 20px;text-align:center;border:1px solid var(--line)}
+  .hero .trio{display:flex;justify-content:center;gap:14px;margin-bottom:12px}
+  .hero .trio span{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);display:grid;place-items:center;font-weight:700;font-size:12px}
+  .hero h1{font-size:22px;text-transform:uppercase;letter-spacing:.02em}
+  .hero p{margin:8px auto 0;max-width:290px;font-size:13px;color:var(--hero-mute)}
+  .hero b{color:#fff}
+  .hero .sub{display:flex;justify-content:space-between;align-items:center;text-align:left}
+  .hero.small{padding:16px 18px;text-align:left}
+  .hero.small h1{font-size:18px}
+  .hero.small p{margin:4px 0 0;max-width:none}
 
-  .grid{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;align-items:start}
-  @media (max-width:780px){.grid{grid-template-columns:1fr}}
-  .panel{background:var(--cream);border:4px solid var(--wood);border-radius:16px;padding:16px;box-shadow:0 6px 0 rgba(0,0,0,.35)}
-  h2{margin:0 0 12px;font-size:1.15rem;text-transform:uppercase;letter-spacing:.5px}
-  .games{display:grid;gap:14px}
+  /* Tarjetas */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .sec-h{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line)}
+  .sec-h h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;font-family:var(--f-body);font-weight:700}
+  .sec-h .n{width:20px;height:20px;border-radius:50%;background:var(--btn);color:var(--btn-ink);display:grid;place-items:center;font-size:11px}
+  .sec-h small{color:var(--muted);font-size:11px;font-weight:500}
 
-  /* Tarjetas de juego */
-  .game{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;
-    font:inherit;color:#fff;border:4px solid transparent;border-radius:14px;padding:14px;min-height:96px;
-    box-shadow:0 4px 0 rgba(0,0,0,.35);transition:transform .12s}
-  .game:hover{transform:translateY(-2px)}
-  .game b{display:block;font-size:1.3rem;text-transform:uppercase;letter-spacing:1px}
-  .game small{opacity:.9}
-  .game .chk{position:absolute;right:12px;top:10px;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#000;
-    font-weight:900;display:none;place-items:center}
-  .game[aria-checked="true"]{border-color:var(--gold);transform:scale(1.02)}
-  .game[aria-checked="true"] .chk{display:grid}
-  .ico{flex:none;width:68px;height:68px;display:grid;place-items:center}
+  /* Juegos */
+  .games{display:flex;flex-direction:column;gap:10px}
+  .game{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+        font:inherit;text-align:left;cursor:pointer;transition:all .2s}
+  .game:hover{border-color:var(--muted)}
+  .game .l{display:flex;align-items:center;gap:14px}
+  .game .ic{width:48px;height:48px;border-radius:12px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;flex:none}
+  .game b{display:block;font-size:14px}
+  .game small{color:var(--muted);font-size:12px;font-weight:500}
+  .game .ck{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:transparent;flex:none}
+  .game[aria-checked="true"]{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+  .game[aria-checked="true"] small{color:var(--sel-mute)}
+  .game[aria-checked="true"] .ic{background:rgba(127,127,127,.18);border-color:rgba(127,127,127,.3)}
+  .game[aria-checked="true"] .ck{background:var(--sel-ink);color:var(--sel);border-color:var(--sel-ink)}
+  .ic svg{width:24px;height:24px}
+  .ball{width:32px;height:32px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-weight:800;font-size:12px}
 
-  /* Ajedrez: tablero */
-  .game[data-game="Ajedrez"]{background:
-    conic-gradient(#2b2b2b 25%,#5a5a5a 0 50%,#2b2b2b 0 75%,#5a5a5a 0) 0 0/40px 40px}
-  .game[data-game="Ajedrez"] .ico{background:rgba(0,0,0,.65);border-radius:12px;font-size:2.6rem}
-  .game[data-game="Ajedrez"] span:last-child{background:rgba(0,0,0,.65);padding:6px 12px;border-radius:10px}
-
-  /* Dominó: ficha */
-  .game[data-game="Dominó"]{background:#2a2a2a}
-  .tile{width:68px;height:68px;background:#fffdf5;border-radius:8px;border:3px solid #111;display:grid;grid-template-rows:1fr 2px 1fr}
-  .tile hr{margin:0;border:0;background:#111}
-  .half{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:3px}
-  .half i{width:9px;height:9px;border-radius:50%;background:#111;place-self:center}
-  .game[data-game="Dominó"] span:last-child{color:#fff}
-
-  /* Bingo: bola */
-  .game[data-game="Bingo"]{background:linear-gradient(135deg,#7f1d1d,#c62828)}
-  .ball{width:68px;height:68px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#ffe9a8 45%,#e0a800);
-    display:grid;place-items:center;color:#7f1d1d;font-weight:900;border:3px solid #fff;box-shadow:inset -4px -4px 8px rgba(0,0,0,.25)}
-  .ball span{background:#fff;border-radius:50%;width:38px;height:38px;display:grid;place-items:center;font-size:1.05rem}
-
-  /* Formulario */
-  label{display:block;font-weight:700;margin:0 0 4px}
+  /* Formularios */
   .field{margin-bottom:14px}
-  input[type=text]{width:100%;padding:11px 12px;font:inherit;color:var(--ink);background:#fff;border:3px solid var(--wood);border-radius:10px}
-  input:focus{outline:none;border-color:var(--blue)}
-  .chosen{padding:11px 12px;border:3px dashed #b9ae94;border-radius:10px;color:var(--muted)}
-  .chosen.has{border:3px solid var(--gold);background:#fff7d6;color:var(--ink);font-weight:800}
-  button.go{width:100%;padding:15px;font:inherit;font-weight:900;font-size:1.15rem;letter-spacing:1px;text-transform:uppercase;
-    color:#000;background:var(--gold);border:4px solid var(--wood);border-radius:12px;cursor:pointer;box-shadow:0 5px 0 var(--wood)}
-  button.go:active{transform:translateY(3px);box-shadow:0 2px 0 var(--wood)}
-  button.go:disabled{opacity:.6;cursor:wait}
-  .msg{margin-top:14px;padding:12px;border-radius:10px;display:none;font-weight:700}
-  .msg.ok{display:block;background:#d1fae5;color:var(--ok)}
-  .msg.err{display:block;background:#fee2e2;color:var(--err)}
-  .note{color:var(--muted);font-size:.85rem;margin:10px 0 0}
+  label.t{display:block;font-size:12px;font-weight:600;margin-bottom:6px}
+  input[type=text],input[type=search]{width:100%;padding:11px 13px;font:inherit;font-size:14px;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:12px;outline:none}
+  input:focus{border-color:var(--ink);background:var(--card)}
+  input[readonly]{font-weight:700;cursor:not-allowed}
+  .selwrap{position:relative}
+  .dot{position:absolute;right:13px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--muted)}
+  .dot.on{background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 25%,transparent)}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 16px;font:inherit;font-family:var(--f-mono);font-weight:700;font-size:13px;
+       text-transform:uppercase;letter-spacing:.04em;color:var(--btn-ink);background:var(--btn);border:1px solid var(--btn);border-radius:14px;cursor:pointer}
+  .btn:active{transform:scale(.98)}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .btn.sec{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn.sm{padding:9px 12px;font-size:11px;width:auto}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .msg{margin-top:12px;padding:11px 13px;border-radius:12px;font-weight:600;display:none}
+  .msg.ok{display:block;background:var(--okbg);color:var(--ok)} .msg.err{display:block;background:var(--errbg);color:var(--err)}
+  .note{text-align:center;color:var(--muted);font-size:11px;font-weight:500;margin:10px 0 0}
+  footer.f{text-align:center;color:var(--muted);font:700 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+
+  /* Equipos */
+  .stat{display:flex;justify-content:space-between;align-items:center}
+  .stat .big{font:700 28px var(--f-head)}
+  .chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font:700 10px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;background:var(--btn);color:var(--btn-ink)}
+  .chip.mute{background:var(--card2);color:var(--muted);border:1px solid var(--line)}
+  .team{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .team .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .team h3{font-size:16px}
+  .team .meta{font:400 10px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .duo div{background:var(--card2);border-radius:10px;padding:9px}
+  .duo small{display:block;font:400 10px var(--f-mono);color:var(--muted);text-transform:uppercase}
+  .duo b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .duo i{font:400 10px var(--f-mono);color:var(--muted);font-style:normal}
+  .link{background:none;border:0;color:var(--muted);font:inherit;font-size:11px;cursor:pointer;padding:2px}
+  .link:hover{color:var(--ink)}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .empty{text-align:center;color:var(--muted);padding:26px 10px}
+  .banner{display:flex;gap:10px;background:var(--card2);border-radius:14px;padding:13px}
+  .banner b{font:700 12px var(--f-mono)} .banner p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+
+  /* Sorteo */
+  .shuffle{display:grid;place-items:center;text-align:center;padding:22px 8px;background:var(--card2);border-radius:14px}
+  .spin{width:54px;height:54px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--ink);animation:sp .8s linear infinite;margin-bottom:10px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* Llaves */
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0}
+  .tabs button{flex:none;padding:7px 13px;border-radius:99px;border:1px solid var(--line);background:var(--card2);color:var(--muted);font:700 10px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;cursor:pointer}
+  .tabs button.on{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
+  .final{display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:center;margin-top:12px}
+  .final>div{flex:1;min-width:0}
+  .final .nm{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vs{font:700 11px var(--f-mono);color:var(--hero-mute)}
+  .final small{color:var(--hero-mute);font-size:11px}
+  .match{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px}
+  .match .hd{display:flex;justify-content:space-between;font:400 10px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:2px 2px 8px}
+  .tm{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:9px;border-radius:12px;border:1px solid transparent;background:var(--card2);color:var(--ink);font:inherit;text-align:left;margin-bottom:6px}
+  .tm:last-child{margin-bottom:0}
+  button.tm{cursor:pointer}
+  .tm .sd{width:30px;height:30px;border-radius:9px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font:700 11px var(--f-mono);flex:none}
+  .tm .w{display:flex;align-items:center;gap:10px;min-width:0}
+  .tm b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tm small{display:block;color:var(--muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tm.win{border-color:var(--ink)} .tm.win .sd{background:var(--btn);color:var(--btn-ink)}
+  .tm.lose{opacity:.4} .tm.lose b{text-decoration:line-through}
+  .tm.tbd{opacity:.6;font-style:italic}
+  .tm .tag{font:700 9px var(--f-mono);padding:2px 6px;border-radius:5px;background:var(--btn);color:var(--btn-ink)}
+
+  /* Menú inferior */
+  nav{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0)}
+  nav div{max-width:440px;margin:0 auto;display:flex;height:62px}
+  nav button{flex:1;background:none;border:0;border-top:2px solid transparent;color:var(--muted);font:700 10px var(--f-mono);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;text-transform:uppercase;letter-spacing:.03em}
+  nav button.on{color:var(--ink);border-top-color:var(--ink)}
+  nav svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="icons" aria-hidden="true">♞ ▯▯ ⓑ</div>
+<main>
+
+<!-- ========== 1. REGISTRO ========== -->
+<section class="screen on" id="s-registro">
+  <header class="hero">
+    <div class="trio" aria-hidden="true">
+      <span title="Ajedrez"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5v-2h14v2M17.5 13.5c-.8 0-1.5.7-1.5 1.5H8v-1.5c0-.8-.7-1.5-1.5-1.5v-1c2.2 0 3-1.8 3-3V7l1-2 2-1 3 1v2c1.7 1.3 2 3.5 2 5.5v1zM10 9a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/></svg></span>
+      <span title="Dominó"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2.5"/><line x1="5" y1="12" x2="19" y2="12"/><circle cx="9.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="14.5" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="17" r="1.2" fill="currentColor" stroke="none"/></svg></span>
+      <span title="Bingo">8</span>
+    </div>
     <h1>Torneo de Juegos</h1>
-    <p>Elige <strong>un solo juego</strong>, llena tus datos y pulsa <em>Participar</em>.</p>
+    <p>Elige <b>un solo juego</b>, llena tus datos y pulsa <i>Participar</i>.</p>
   </header>
 
-  <div class="grid">
-    <section class="panel" aria-labelledby="t-juegos">
-      <h2 id="t-juegos">1. Elige tu juego</h2>
-      <div class="games" role="radiogroup" aria-label="Tipo de juego">
-        <button type="button" class="game" role="radio" aria-checked="false" data-game="Ajedrez">
-          <span class="chk">✓</span><span class="ico">♞</span><span><b>Ajedrez</b><small>Estrategia 1 contra 1</small></span></button>
-        <button type="button" class="game" role="radio" aria-checked="false" data-game="Dominó">
-          <span class="chk">✓</span>
-          <span class="ico"><span class="tile">
-            <span class="half"><i style="grid-area:1/1"></i><i style="grid-area:2/2"></i><i style="grid-area:3/3"></i></span><hr>
-            <span class="half"><i style="grid-area:1/1"></i><i style="grid-area:1/3"></i><i style="grid-area:3/1"></i><i style="grid-area:3/3"></i></span>
-          </span></span>
-          <span><b>Dominó</b><small>Parejas o individual</small></span></button>
-        <button type="button" class="game" role="radio" aria-checked="false" data-game="Bingo">
-          <span class="chk">✓</span><span class="ico"><span class="ball"><span>B7</span></span></span><span><b>Bingo</b><small>Suerte y atención</small></span></button>
-      </div>
-    </section>
+  <section class="card">
+    <div class="sec-h"><h2><span class="n">1</span>Elige tu juego</h2><small>1 opción única</small></div>
+    <div class="games" role="radiogroup" aria-label="Tipo de juego">
+      <button type="button" class="game" role="radio" aria-checked="false" data-game="Ajedrez">
+        <span class="l"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5v-2h14v2M17.5 13.5c-.8 0-1.5.7-1.5 1.5H8v-1.5c0-.8-.7-1.5-1.5-1.5v-1c2.2 0 3-1.8 3-3V7l1-2 2-1 3 1v2c1.7 1.3 2 3.5 2 5.5v1zM10 9a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/></svg></span><span><b>Ajedrez</b><small>Estrategia 1 contra 1</small></span></span>
+        <span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></button>
+      <button type="button" class="game" role="radio" aria-checked="false" data-game="Dominó">
+        <span class="l"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="5" y1="12" x2="19" y2="12"/><circle cx="9" cy="7.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="7.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="16.5" r="1.3" fill="currentColor" stroke="none"/></svg></span><span><b>Dominó</b><small>Parejas (se sortean)</small></span></span>
+        <span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></button>
+      <button type="button" class="game" role="radio" aria-checked="false" data-game="Bingo">
+        <span class="l"><span class="ic"><span class="ball">B7</span></span><span><b>Bingo</b><small>Suerte y atención</small></span></span>
+        <span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></button>
+    </div>
+  </section>
 
-    <section class="panel" aria-labelledby="t-datos">
-      <h2 id="t-datos">2. Tus datos</h2>
-      <form id="f" novalidate>
-        <div class="field"><label for="nombre">Nombre y apellido</label><input id="nombre" type="text" autocomplete="name" required></div>
-        <div class="field"><label for="ficha">Número de ficha</label><input id="ficha" type="text" inputmode="numeric" required></div>
-        <div class="field"><label for="doc">Número de documento</label><input id="doc" type="text" inputmode="numeric" required></div>
-        <div class="field"><label>Juego seleccionado</label><div id="chosen" class="chosen">Ninguno todavía</div></div>
-        <button class="go" id="go" type="submit">¡Participar!</button>
-        <div id="msg" class="msg" role="status" aria-live="polite"></div>
-        <p class="note">Cada persona solo puede inscribirse en un juego.</p>
-      </form>
-    </section>
+  <section class="card">
+    <div class="sec-h"><h2><span class="n">2</span>Tus datos</h2><small>Obligatorio</small></div>
+    <form id="f" novalidate>
+      <div class="field"><label class="t" for="nombre">Nombre y apellido</label><input id="nombre" type="text" autocomplete="name" placeholder="Ej. Juan Pérez"></div>
+      <div class="field"><label class="t" for="ficha">Número de ficha</label><input id="ficha" type="text" inputmode="numeric" placeholder="Ej. 10428"></div>
+      <div class="field"><label class="t" for="doc">Número de documento</label><input id="doc" type="text" inputmode="numeric" placeholder="Ej. 10203040"></div>
+      <div class="field"><label class="t" for="chosen">Juego seleccionado</label>
+        <div class="selwrap"><input id="chosen" type="text" readonly value="Ninguno todavía"><span class="dot" id="dot"></span></div></div>
+      <button class="btn" id="go" type="submit">¡Participar! →</button>
+      <div id="msg" class="msg" role="status" aria-live="polite"></div>
+      <p class="note">Cada persona solo puede inscribirse en un juego.</p>
+    </form>
+  </section>
+  <footer class="f">Torneo de Juegos</footer>
+</section>
+
+<!-- ========== 2. EQUIPOS ========== -->
+<section class="screen" id="s-equipos">
+  <header class="hero small"><h1>Dominó · Equipos</h1><p>Jugadores inscritos y parejas del sorteo.</p></header>
+  <div class="card">
+    <div class="stat"><div><span class="big" id="eq-n">0</span> <span class="mono" style="font-size:10px;color:var(--muted)" id="eq-l">JUGADORES</span></div><span class="chip mute" id="eq-src">Local</span></div>
+    <div class="row2" style="margin-top:12px">
+      <button class="btn" data-go="sorteo">🎲 Sorteo</button>
+      <button class="btn sec" id="btn-add">+ Jugador</button>
+    </div>
+    <form id="addf" style="display:none;margin-top:12px" novalidate>
+      <div class="field"><input id="a-nombre" type="text" placeholder="Nombre y apellido"></div>
+      <div class="field"><input id="a-doc" type="text" inputmode="numeric" placeholder="Número de documento"></div>
+      <button class="btn sm" type="submit">Agregar</button>
+    </form>
   </div>
-</div>
+  <input id="q" type="search" placeholder="Buscar por nombre o documento...">
+  <div class="list" id="eq-list"></div>
+  <div class="banner"><div><b>Regla de inscripción única</b><p>Cada participante solo puede estar inscrito en una disciplina (Dominó, Ajedrez o Bingo).</p></div></div>
+</section>
+
+<!-- ========== 3. SORTEO ========== -->
+<section class="screen" id="s-sorteo">
+  <header class="hero small"><h1>Sorteo de parejas</h1><p>Mezcla los jugadores de Dominó al azar y arma las parejas.</p></header>
+  <div class="card" id="draw-box"></div>
+  <div class="list" id="draw-list"></div>
+</section>
+
+<!-- ========== 4. LLAVES ========== -->
+<section class="screen" id="s-llaves">
+  <header class="hero small"><h1>Dominó · Parejas</h1><p>Cuadro de eliminación directa. Toca una pareja para marcarla ganadora.</p></header>
+  <div id="bk"></div>
+</section>
+
+</main>
+
+<nav><div>
+  <button data-go="registro"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Registro</button>
+  <button data-go="equipos"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4.5 2 4.5 5"/></svg>Equipos</button>
+  <button data-go="sorteo"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="8" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/></svg>Sorteo</button>
+  <button data-go="llaves"><svg viewBox="0 0 24 24"><path d="M3 5h5v5H3zM3 14h5v5H3zM16 9.5h5v5h-5zM8 7.5h3v9H8M11 12h5"/></svg>Llaves</button>
+</div></nav>
 
 <script>
 /* ===== CONFIGURACIÓN (ver README.md) =====
-   FORM_URL: URL del Google Form terminada en /formResponse
-   ENTRY:    ids "entry.XXXX" de cada pregunta del formulario
-   CHECK_URL: (opcional) URL del Apps Script que revisa duplicados en la hoja */
+   FORM_URL / ENTRY : tu Google Form (registro)
+   CHECK_URL        : (opcional) Apps Script que revisa duplicados
+   SHEET_CSV_URL    : (opcional) hoja de respuestas publicada como CSV; así Equipos lee los inscritos de Dominó */
 const CONFIG = {
   FORM_URL: "https://docs.google.com/forms/d/e/PEGA_AQUI_EL_ID_DEL_FORM/formResponse",
   ENTRY: { nombre:"entry.1111111111", ficha:"entry.2222222222", documento:"entry.3333333333", juego:"entry.4444444444" },
-  CHECK_URL: ""
+  CHECK_URL: "",
+  SHEET_CSV_URL: ""
 };
 
-const $ = id => document.getElementById(id);
-const msg = $("msg"), go = $("go");
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim();
+const pad = n => String(n).padStart(2,"0");
+
+/* ---------- Navegación ---------- */
+const SCREENS = ["registro","equipos","sorteo","llaves"];
+function go(name){
+  if (!SCREENS.includes(name)) name = "registro";
+  $$(".screen").forEach(s => s.classList.toggle("on", s.id === "s-"+name));
+  $$("nav button").forEach(b => b.classList.toggle("on", b.dataset.go === name));
+  if (location.hash !== "#"+name) history.replaceState(null,"","#"+name);
+  window.scrollTo(0,0);
+  ({equipos:renderEquipos, sorteo:renderSorteo, llaves:renderLlaves})[name]?.();
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) go(b.dataset.go); });
+window.addEventListener("hashchange", () => go(location.hash.slice(1)));
+
+/* ---------- Estado del torneo (solo en este dispositivo) ---------- */
+const LS = "torneo_estado_v1";
+let S = { manual:[], pairs:[], wins:{} };
+try { S = Object.assign(S, JSON.parse(localStorage.getItem(LS)) || {}); } catch {}
+const save = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch {} };
+let remote = [], remoteOk = false;
+
+/* ---------- 1. REGISTRO ---------- */
+const msg = $("#msg"), go_ = $("#go");
 let juego = "";
 const KEY = "inscripciones_juegos";
 const saved = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
-
-document.querySelectorAll(".game").forEach(b => b.addEventListener("click", () => {
-  document.querySelectorAll(".game").forEach(x => x.setAttribute("aria-checked", x === b));
-  juego = b.dataset.game;
-  $("chosen").textContent = juego; $("chosen").classList.add("has");
-}));
-
-function show(type, text){ msg.className = "msg " + type; msg.textContent = text; }
+function setJuego(j){
+  juego = j;
+  $$(".game").forEach(x => x.setAttribute("aria-checked", x.dataset.game === j));
+  $("#chosen").value = j || "Ninguno todavía"; $("#dot").classList.toggle("on", !!j);
+}
+$$(".game").forEach(b => b.addEventListener("click", () => setJuego(b.dataset.game)));
+const show = (type, text) => { msg.className = "msg " + type; msg.textContent = text; };
 const clean = v => v.trim().replace(/\s+/g, " ");
 
-$("f").addEventListener("submit", async e => {
+$("#f").addEventListener("submit", async e => {
   e.preventDefault();
-  const nombre = clean($("nombre").value), ficha = $("ficha").value.trim(), doc = $("doc").value.replace(/\D/g, "");
+  const nombre = clean($("#nombre").value), ficha = $("#ficha").value.trim(), doc = $("#doc").value.replace(/\D/g, "");
   if (!nombre.includes(" ")) return show("err", "Escribe nombre y apellido.");
   if (!ficha) return show("err", "Escribe tu número de ficha.");
   if (doc.length < 5) return show("err", "Revisa tu número de documento.");
   if (!juego) return show("err", "Elige un juego.");
 
-  go.disabled = true; show("", ""); msg.className = "msg";
+  go_.disabled = true; msg.className = "msg";
   try {
-    // 1) Ya inscrito en este dispositivo
     const prev = saved().find(r => r.doc === doc || r.ficha === ficha);
     if (prev) return show("err", `Ya estás inscrito en ${prev.juego}. Solo se permite un juego por persona.`);
 
-    // 2) Ya inscrito en la hoja de respuestas (si hay Apps Script)
     if (CONFIG.CHECK_URL) {
       const r = await fetch(`${CONFIG.CHECK_URL}?documento=${encodeURIComponent(doc)}&ficha=${encodeURIComponent(ficha)}`);
       const j = await r.json();
       if (j.existe) return show("err", `Ya estás inscrito en ${j.juego || "otro juego"}. Solo se permite un juego por persona.`);
     }
 
-    // 3) Enviar al Google Form
     const body = new FormData();
     body.append(CONFIG.ENTRY.nombre, nombre);
     body.append(CONFIG.ENTRY.ficha, ficha);
@@ -178,12 +317,179 @@ $("f").addEventListener("submit", async e => {
     const list = saved(); list.push({ doc, ficha, juego });
     try { localStorage.setItem(KEY, JSON.stringify(list)); } catch {}
     show("ok", `¡Listo ${nombre.split(" ")[0]}! Quedaste inscrito en ${juego}.`);
-    $("f").reset(); juego = ""; $("chosen").textContent = "Ninguno todavía"; $("chosen").classList.remove("has");
-    document.querySelectorAll(".game").forEach(x => x.setAttribute("aria-checked", "false"));
+    $("#f").reset(); setJuego("");
   } catch (err) {
     show("err", "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.");
-  } finally { go.disabled = false; }
+  } finally { go_.disabled = false; }
 });
+
+/* ---------- Jugadores de Dominó ---------- */
+function parseCSV(t){
+  const rows = []; let row = [], cur = "", q = false;
+  for (let i = 0; i < t.length; i++){
+    const c = t[i];
+    if (q){ if (c === '"'){ if (t[i+1] === '"'){ cur += '"'; i++; } else q = false; } else cur += c; }
+    else if (c === '"') q = true;
+    else if (c === ","){ row.push(cur); cur = ""; }
+    else if (c === "\n"){ row.push(cur); rows.push(row); row = []; cur = ""; }
+    else if (c !== "\r") cur += c;
+  }
+  if (cur || row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+async function loadRemote(){
+  if (!CONFIG.SHEET_CSV_URL) return;
+  try {
+    const r = await fetch(CONFIG.SHEET_CSV_URL, { cache:"no-store" });
+    const rows = parseCSV(await r.text()).slice(1);      // A=fecha, B=nombre, C=ficha, D=documento, E=juego
+    remote = rows.filter(x => norm(x[4]||"") === "domino" && x[1])
+      .map(x => ({ nombre:clean(x[1]), ficha:(x[2]||"").trim(), doc:String(x[3]||"").replace(/\D/g,""), manual:false }));
+    remoteOk = true;
+  } catch { remoteOk = false; }
+}
+function players(){
+  const seen = new Set(), out = [];
+  [...remote, ...S.manual.map(p => ({...p, manual:true}))].forEach(p => {
+    const k = p.doc || norm(p.nombre);
+    if (!seen.has(k)){ seen.add(k); out.push(p); }
+  });
+  return out;
+}
+const pdoc = p => p.doc ? "ID: " + esc(p.doc) : "Sin documento";
+
+/* ---------- 2. EQUIPOS ---------- */
+$("#btn-add").addEventListener("click", () => { const f = $("#addf"); f.style.display = f.style.display === "none" ? "block" : "none"; });
+$("#addf").addEventListener("submit", e => {
+  e.preventDefault();
+  const nombre = clean($("#a-nombre").value), doc = $("#a-doc").value.replace(/\D/g,"");
+  if (!nombre) return;
+  if (doc && players().some(p => p.doc === doc)) return alert("Ese documento ya está inscrito.");
+  S.manual.push({ nombre, doc, ficha:"" }); save(); e.target.reset(); renderEquipos();
+});
+$("#q").addEventListener("input", renderEquipos);
+
+function renderEquipos(){
+  const ps = players(), q = norm($("#q").value || "");
+  $("#eq-n").textContent = S.pairs.length ? S.pairs.length : ps.length;
+  $("#eq-l").textContent = S.pairs.length ? "PAREJAS · " + ps.length + " JUGADORES" : "JUGADORES";
+  $("#eq-src").textContent = CONFIG.SHEET_CSV_URL ? (remoteOk ? "Hoja en línea" : "Hoja sin conexión") : "Solo local";
+  const list = $("#eq-list"); let html = "";
+  const match = (...t) => !q || norm(t.join(" ")).includes(q);
+
+  S.pairs.forEach((p, i) => {
+    if (!match(p.name, p.a.nombre, p.b.nombre, p.a.doc, p.b.doc)) return;
+    html += `<div class="team"><div class="top"><div><h3>${esc(p.name)}</h3><span class="meta">Mesa ${pad(i+1)} · Sembrado ${i+1}</span></div><span class="chip">Confirmada</span></div>
+      <div class="duo"><div><small>Jugador 1</small><b>${esc(p.a.nombre)}</b><i>${pdoc(p.a)}</i></div><div><small>Jugador 2</small><b>${esc(p.b.nombre)}</b><i>${pdoc(p.b)}</i></div></div>
+      <div><button class="link" data-rename="${i}">✎ Renombrar</button></div></div>`;
+  });
+  const inPair = new Set(S.pairs.flatMap(p => [p.a, p.b].map(x => x.doc || norm(x.nombre))));
+  ps.filter(p => !S.pairs.length || !inPair.has(p.doc || norm(p.nombre))).forEach(p => {
+    if (!match(p.nombre, p.doc)) return;
+    html += `<div class="team"><div class="top"><div><h3>${esc(p.nombre)}</h3><span class="meta">${pdoc(p)}${p.ficha ? " · Ficha " + esc(p.ficha) : ""}</span></div>
+      <span class="chip mute">${S.pairs.length ? "Sin pareja" : "Inscrito"}</span></div>
+      ${p.manual ? `<div><button class="link" data-del="${esc(p.doc || p.nombre)}">🗑 Quitar</button></div>` : ""}</div>`;
+  });
+  list.innerHTML = html || `<div class="empty">Aún no hay jugadores de Dominó.<br>Agrega uno o conecta la hoja de respuestas.</div>`;
+}
+$("#eq-list").addEventListener("click", e => {
+  const r = e.target.closest("[data-rename]"), d = e.target.closest("[data-del]");
+  if (r){ const p = S.pairs[+r.dataset.rename], n = prompt("Nuevo nombre para la pareja:", p.name); if (n && n.trim()){ p.name = n.trim(); save(); renderEquipos(); } }
+  if (d){ S.manual = S.manual.filter(p => (p.doc || p.nombre) !== d.dataset.del); save(); renderEquipos(); }
+});
+
+/* ---------- 3. SORTEO ---------- */
+let draft = null;
+function shuffle(a){
+  a = a.slice();
+  for (let i = a.length - 1; i > 0; i--){ const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i+1); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function makePairs(ps){
+  const s = shuffle(ps), pairs = [];
+  for (let i = 0; i + 1 < s.length; i += 2) pairs.push({ id:"p"+(pairs.length+1), name:"Pareja " + pad(pairs.length+1), a:s[i], b:s[i+1] });
+  return { pairs, spare: s.length % 2 ? s[s.length-1] : null };
+}
+function renderSorteo(){
+  const n = players().length, box = $("#draw-box"), list = $("#draw-list");
+  const warn = S.pairs.length ? `<p class="note" style="color:var(--err)">Ya hay un sorteo confirmado. Confirmar uno nuevo reemplaza las parejas y reinicia las llaves.</p>` : "";
+  if (n < 4){
+    box.innerHTML = `<div class="empty">Se necesitan al menos 4 jugadores de Dominó (hay ${n}).</div>`; list.innerHTML = ""; return;
+  }
+  if (!draft){
+    box.innerHTML = `<div class="shuffle"><div class="big mono" style="font-size:34px;font-weight:700">${n}</div><div class="mono" style="font-size:11px;color:var(--muted)">JUGADORES · ${Math.floor(n/2)} PAREJAS</div></div>
+      <button class="btn" id="do-draw" style="margin-top:12px">🎲 Sortear parejas</button>${warn}`;
+    list.innerHTML = "";
+  } else {
+    box.innerHTML = `<div class="row2"><button class="btn sec" id="do-draw">Volver a sortear</button><button class="btn" id="do-ok">Confirmar</button></div>${warn}`;
+    list.innerHTML = draft.pairs.map((p,i) => `<div class="team"><div class="top"><h3>${esc(p.name)}</h3><span class="meta">Mesa ${pad(i+1)}</span></div>
+      <div class="duo"><div><b>${esc(p.a.nombre)}</b><i>${pdoc(p.a)}</i></div><div><b>${esc(p.b.nombre)}</b><i>${pdoc(p.b)}</i></div></div></div>`).join("")
+      + (draft.spare ? `<div class="banner"><div><b>Suplente</b><p>${esc(draft.spare.nombre)} queda sin pareja (cantidad impar de jugadores).</p></div></div>` : "");
+  }
+}
+$("#draw-box").addEventListener("click", e => {
+  if (e.target.closest("#do-draw")){
+    $("#draw-box").innerHTML = `<div class="shuffle"><div class="spin"></div><b class="mono">Mezclando...</b></div>`; $("#draw-list").innerHTML = "";
+    setTimeout(() => { draft = makePairs(players()); renderSorteo(); }, 900);
+  }
+  if (e.target.closest("#do-ok") && draft){
+    S.pairs = draft.pairs; S.wins = {}; save(); draft = null; go("llaves");
+  }
+});
+
+/* ---------- 4. LLAVES ---------- */
+let stage = null;
+const roundName = (r, total) => { const left = total - r; return left === 1 ? "Final" : left === 2 ? "Semifinal" : left === 3 ? "Cuartos" : left === 4 ? "Octavos" : left === 5 ? "Dieciseisavos" : "Ronda " + (r+1); };
+function bracketModel(){
+  const n = S.pairs.length; let size = 2; while (size < n) size *= 2;
+  const seeds = Array.from({length:size}, (_, i) => S.pairs[i] || null);
+  const rounds = Math.log2(size), byId = Object.fromEntries(S.pairs.map(p => [p.id, p]));
+  const parts = (r, m) => r === 0 ? [seeds[m], seeds[size-1-m]] : [winner(r-1, 2*m), winner(r-1, 2*m+1)];
+  function winner(r, m){
+    const [a, b] = parts(r, m);
+    if (r === 0 && a && !b) return a; if (r === 0 && b && !a) return b;
+    const w = byId[S.wins[r+"-"+m]]; return w && (w === a || w === b) ? w : null;
+  }
+  return { size, rounds, parts, winner, seeds };
+}
+function renderLlaves(){
+  const el = $("#bk");
+  if (S.pairs.length < 2){ el.innerHTML = `<div class="card empty">Primero haz el sorteo de parejas.<br><br><button class="btn sm" data-go="sorteo" style="margin:auto">Ir al sorteo</button></div>`; return; }
+  const M = bracketModel();
+  if (stage === null || stage >= M.rounds){
+    stage = 0; for (let r = 0; r < M.rounds; r++){ let open = false; for (let m = 0; m < M.size/2**(r+1); m++){ const [a,b] = M.parts(r,m); if (a && b && !M.winner(r,m)) open = true; } if (open){ stage = r; break; } stage = r; }
+  }
+  const champ = M.winner(M.rounds-1, 0), [fa, fb] = M.parts(M.rounds-1, 0);
+  const seedOf = p => S.pairs.indexOf(p) + 1;
+  const fin = p => p ? `<div><div class="nm">${esc(p.name)}</div><small>Sembrado ${seedOf(p)}</small></div>` : `<div><div class="nm" style="opacity:.6">Por definir</div><small>Ganador previo</small></div>`;
+  let h = `<div class="hero" style="text-align:left"><div class="mono" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">🏆 Gran final</div>
+    <div class="final">${fin(fa)}<span class="vs">VS</span>${fin(fb)}</div>
+    ${champ ? `<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.18);text-align:center"><small style="color:var(--hero-mute)">PAREJA CAMPEONA</small><div class="nm" style="font:700 20px var(--f-head)">${esc(champ.name)}</div><small style="color:var(--hero-mute)">${esc(champ.a.nombre)} &amp; ${esc(champ.b.nombre)}</small></div>` : ""}</div>`;
+  h += `<div class="tabs" style="margin:14px 0">` + Array.from({length:M.rounds}, (_, r) => `<button data-stage="${r}" class="${r===stage?"on":""}">${roundName(r,M.rounds)}</button>`).join("") + `</div><div class="list">`;
+  const count = M.size / 2**(stage+1);
+  for (let m = 0; m < count; m++){
+    const [a, b] = M.parts(stage, m), w = M.winner(stage, m), bye = stage === 0 && (!a || !b);
+    const state = bye ? "Pase directo" : w ? "Finalizado" : a && b ? "Por jugar" : "Por definir";
+    const row = t => {
+      if (!t) return `<div class="tm tbd"><span class="w"><span class="sd">–</span><span><b>${bye ? "Libre (bye)" : "Por definir"}</b></span></span></div>`;
+      const cls = w ? (w === t ? "win" : "lose") : "";
+      const tag = w === t ? `<span class="tag">AVANZA</span>` : "";
+      const inner = `<span class="w"><span class="sd">${pad(seedOf(t))}</span><span><b>${esc(t.name)}</b><small>${esc(t.a.nombre)} &amp; ${esc(t.b.nombre)}</small></span></span>${tag}`;
+      return a && b && !bye ? `<button class="tm ${cls}" data-win="${stage}-${m}" data-id="${t.id}">${inner}</button>` : `<div class="tm ${cls}">${inner}</div>`;
+    };
+    h += `<div class="match"><div class="hd"><span>Mesa ${pad(m+1)} · ${state}</span><span>Llave ${String.fromCharCode(65+stage)}-${m+1}</span></div>${row(a)}${row(b)}</div>`;
+  }
+  el.innerHTML = h + `</div><button class="btn sec" id="bk-reset" style="margin-top:14px">Reiniciar resultados</button>`;
+}
+$("#bk").addEventListener("click", e => {
+  const t = e.target.closest("[data-stage]"), w = e.target.closest("[data-win]");
+  if (t){ stage = +t.dataset.stage; renderLlaves(); }
+  if (w){ const k = w.dataset.win; if (S.wins[k] === w.dataset.id) delete S.wins[k]; else S.wins[k] = w.dataset.id; save(); renderLlaves(); }
+  if (e.target.closest("#bk-reset") && confirm("¿Borrar todos los resultados?")){ S.wins = {}; save(); stage = null; renderLlaves(); }
+});
+
+/* ---------- Inicio ---------- */
+loadRemote().then(() => { const s = location.hash.slice(1); if (s === "equipos") renderEquipos(); });
+go(location.hash.slice(1) || "registro");
 </script>
 </body>
 </html>
