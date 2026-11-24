@@ -4,8 +4,8 @@ Página móvil (modo claro y oscuro) con 4 pantallas, todas en `index.html`:
 
 | Pantalla | Para quién | Qué hace |
 |---|---|---|
-| **Registro** | Participantes | Tres botones (Ajedrez, Dominó, Bingo) abren la lista de participantes de cada juego. Abajo, el formulario: nombre y apellido, ficha, documento y una lista para elegir el juego. |
-| **Participantes** | Todos | Lista de inscritos de un juego, con pestañas para cambiar de juego y buscador. No muestra el documento. |
+| **Registro** | Participantes | Tres botones (Ajedrez, Dominó, Bingo) abren la lista de participantes de cada juego. Abajo, el formulario: nombre y apellido, ficha (lista), cédula y juego (lista). |
+| **Participantes** | Todos | Lista de inscritos de un juego, con pestañas y buscador. No muestra la cédula. Solo tiene un botón que lleva al registro. |
 | **Equipos** | Organizador | Lista de jugadores de Dominó y de las parejas sorteadas. |
 | **Sorteo** | Organizador | Mezcla a los jugadores al azar y arma las parejas (el dominó se inscribe de forma individual). |
 | **Llaves** | Organizador | Cuadro de eliminación directa. Toca una pareja para marcarla ganadora y avanza sola. |
@@ -15,8 +15,9 @@ Página móvil (modo claro y oscuro) con 4 pantallas, todas en `index.html`:
 2. Menú ⋮ > **Obtener enlace rellenado previamente**, llena cada campo con un texto de prueba y pulsa **Obtener enlace**. En la URL verás `entry.123456=...` para cada pregunta.
 3. En `index.html`, bloque `CONFIG`: cambia `FORM_URL` (el link del Form terminado en `/formResponse`) y los 4 `entry.XXXX`.
 
-## 2. Un solo juego por persona
-- La página bloquea repetidos por documento o ficha en el mismo dispositivo.
+## 2. Una cédula, un solo registro
+- La única validación es la **cédula**: no puede repetirse en ningún juego (una cédula, un registro). La ficha se elige de una lista (`FICHAS` en `CONFIG`) y puede repetirse.
+- La página bloquea cédulas repetidas en el mismo dispositivo y contra la hoja si está conectada.
 - Para bloquearlos desde cualquier dispositivo, pega `Code.gs` en la hoja de respuestas (Extensiones > Apps Script), publícalo como aplicación web y pon su URL en `CHECK_URL`.
 
 ## 3. Que Participantes y Equipos lean todos los inscritos

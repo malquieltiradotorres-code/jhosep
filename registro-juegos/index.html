@@ -191,13 +191,13 @@
     <div class="sec-h"><h2>Inscripción</h2><small>Obligatorio</small></div>
     <form id="f" novalidate>
       <div class="field"><label class="t" for="nombre">Nombre y apellido</label><input id="nombre" type="text" autocomplete="name" placeholder="Ej. Juan Pérez"></div>
-      <div class="field"><label class="t" for="ficha">Número de ficha</label><input id="ficha" type="text" inputmode="numeric" placeholder="Ej. 10428"></div>
-      <div class="field"><label class="t" for="doc">Número de documento</label><input id="doc" type="text" inputmode="numeric" placeholder="Ej. 10203040"></div>
+      <div class="field"><label class="t" for="ficha">Número de ficha</label><select id="ficha"><option value="">Elige tu ficha…</option></select></div>
+      <div class="field"><label class="t" for="doc">Número de cédula</label><input id="doc" type="text" inputmode="numeric" placeholder="Solo números"></div>
       <div class="field"><label class="t" for="juego">Juego en el que vas a participar</label>
         <select id="juego"><option value="">Elige un juego…</option><option value="Ajedrez">Ajedrez</option><option value="Dominó">Dominó</option><option value="Bingo">Bingo</option></select></div>
       <button class="btn" id="go" type="submit">¡Participar! →</button>
       <div id="msg" class="msg" role="status" aria-live="polite"></div>
-      <p class="note">Cada persona solo puede inscribirse en un juego.</p>
+      <p class="note">Cada cédula solo puede registrarse una vez, en un solo juego.</p>
     </form>
   </section>
   <footer class="f">Torneo de Juegos</footer>
@@ -211,7 +211,7 @@
   </div>
   <input id="pq" type="search" placeholder="Buscar por nombre...">
   <div class="list" id="pt-list"></div>
-  <div class="row2"><button class="btn sec" data-go="registro">← Volver</button><button class="btn" id="pt-join">Inscribirme</button></div>
+  <button class="btn" id="pt-join">Ir al registro →</button>
 </section>
 
 <!-- ========== 2. EQUIPOS ========== -->
@@ -259,11 +259,13 @@
 <script>
 /* ===== CONFIGURACIÓN (ver README.md) =====
    FORM_URL / ENTRY : tu Google Form (registro)
-   CHECK_URL        : (opcional) Apps Script que revisa duplicados
+   FICHAS           : lista de fichas que se pueden elegir
+   CHECK_URL        : (opcional) Apps Script que revisa si la cédula ya está inscrita
    SHEET_CSV_URL    : (opcional) hoja de respuestas publicada como CSV; así Equipos lee los inscritos de Dominó */
 const CONFIG = {
   FORM_URL: "https://docs.google.com/forms/d/e/PEGA_AQUI_EL_ID_DEL_FORM/formResponse",
   ENTRY: { nombre:"entry.1111111111", ficha:"entry.2222222222", documento:"entry.3333333333", juego:"entry.4444444444" },
+  FICHAS: ["3493748", "3603930", "3174404", "3409199"],   // opciones de la lista "Número de ficha"
   CHECK_URL: "",
   SHEET_CSV_URL: ""
 };
@@ -301,25 +303,26 @@ const saved = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; 
 const show = (type, text) => { msg.className = "msg " + type; msg.textContent = text; };
 const clean = v => v.trim().replace(/\s+/g, " ");
 const GAMES = ["Ajedrez","Dominó","Bingo"];
+$("#ficha").insertAdjacentHTML("beforeend", CONFIG.FICHAS.map(f => `<option value="${esc(f)}">${esc(f)}</option>`).join(""));
 const canon = j => GAMES.find(g => norm(g) === norm(j)) || "";
 
 $("#f").addEventListener("submit", async e => {
   e.preventDefault();
   const nombre = clean($("#nombre").value), ficha = $("#ficha").value.trim(), doc = $("#doc").value.replace(/\D/g, ""), juego = $("#juego").value;
   if (!nombre.includes(" ")) return show("err", "Escribe nombre y apellido.");
-  if (!ficha) return show("err", "Escribe tu número de ficha.");
-  if (doc.length < 5) return show("err", "Revisa tu número de documento.");
+  if (!ficha) return show("err", "Elige tu número de ficha.");
+  if (doc.length < 5) return show("err", "Revisa tu número de cédula.");
   if (!juego) return show("err", "Elige el juego en el que vas a participar.");
 
   go_.disabled = true; msg.className = "msg";
   try {
-    const prev = saved().find(r => r.doc === doc || r.ficha === ficha);
-    if (prev) return show("err", `Ya estás inscrito en ${prev.juego}. Solo se permite un juego por persona.`);
+    const prev = allPeople().find(r => r.doc === doc);
+    if (prev) return show("err", `Esta cédula ya está inscrita en ${prev.juego}. Solo se permite un registro por persona.`);
 
     if (CONFIG.CHECK_URL) {
-      const r = await fetch(`${CONFIG.CHECK_URL}?documento=${encodeURIComponent(doc)}&ficha=${encodeURIComponent(ficha)}`);
+      const r = await fetch(`${CONFIG.CHECK_URL}?documento=${encodeURIComponent(doc)}`);
       const j = await r.json();
-      if (j.existe) return show("err", `Ya estás inscrito en ${j.juego || "otro juego"}. Solo se permite un juego por persona.`);
+      if (j.existe) return show("err", `Esta cédula ya está inscrita en ${j.juego || "otro juego"}. Solo se permite un registro por persona.`);
     }
 
     const body = new FormData();
@@ -391,7 +394,7 @@ function openGame(g){ viewGame = g; $("#pq").value = ""; go("participantes"); }
 $$(".game[data-view]").forEach(b => b.addEventListener("click", () => openGame(b.dataset.view)));
 $("#pt-tabs").addEventListener("click", e => { const b = e.target.closest("[data-pt]"); if (b){ viewGame = b.dataset.pt; renderParticipantes(); } });
 $("#pq").addEventListener("input", renderParticipantes);
-$("#pt-join").addEventListener("click", () => { go("registro"); $("#juego").value = viewGame; $("#nombre").focus(); });
+$("#pt-join").addEventListener("click", () => go("registro"));
 function renderParticipantes(){
   const q = norm($("#pq").value || "");
   let ps = allPeople().filter(p => p.juego === viewGame);
