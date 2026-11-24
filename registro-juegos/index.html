@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Torneo de Juegos</title>
+<title>Torneo de Juegos · Registro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -155,12 +155,27 @@
   nav button{flex:1;background:none;border:0;border-top:2px solid transparent;color:var(--muted);font:700 10px var(--f-mono);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;text-transform:uppercase;letter-spacing:.03em}
   nav button.on{color:var(--ink);border-top-color:var(--ink)}
   nav svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  .tbl{width:100%;border-collapse:collapse;font-size:13px}
+  .tbl th{font:700 10px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);text-align:left;padding:6px 6px;border-bottom:1px solid var(--line)}
+  .tbl td{padding:9px 6px;border-bottom:1px solid var(--line)}
+  .tbl tr:last-child td{border-bottom:0}
+  .tbl .c{text-align:center;font-family:var(--f-mono)} .tbl .nm{font-weight:600}
+  .tbl tr.top td:first-child{font-weight:800}
+  .gm{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+  .gm .pl{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:4px 2px}
+  .gm .pl b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gm .pl small{font:400 10px var(--f-mono);color:var(--muted);text-transform:uppercase}
+  .res{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+  .res button{padding:9px 4px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--ink);font:700 12px var(--f-mono);cursor:pointer}
+  .res button.on{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}
+  .num{width:80px;padding:8px 10px;font:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:10px;text-align:center}
+  .help{font-size:12px;color:var(--muted);margin:6px 0 0}
+  .hide{display:none}
 </style>
 </head>
 <body>
-<main>
-
-<!-- ========== 1. REGISTRO ========== -->
+<main style="padding-bottom:24px">
 <section class="screen on" id="s-registro">
   <header class="hero">
     <div class="trio" aria-hidden="true">
@@ -169,23 +184,8 @@
       <span title="Bingo">8</span>
     </div>
     <h1>Torneo de Juegos</h1>
-    <p>Mira quién juega en cada juego, o inscríbete en <b>uno solo</b> y pulsa <i>Participar</i>.</p>
+    <p>Llena tus datos, elige <b>un solo juego</b> y pulsa <i>Participar</i>.</p>
   </header>
-
-  <section class="card">
-    <div class="sec-h"><h2>Ver participantes</h2><small>Toca un juego</small></div>
-    <div class="games">
-      <button type="button" class="game" data-view="Ajedrez">
-        <span class="l"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 22H5v-2h14v2M17.5 13.5c-.8 0-1.5.7-1.5 1.5H8v-1.5c0-.8-.7-1.5-1.5-1.5v-1c2.2 0 3-1.8 3-3V7l1-2 2-1 3 1v2c1.7 1.3 2 3.5 2 5.5v1zM10 9a1 1 0 1 0-1-1 1 1 0 0 0 1 1z"/></svg></span><span><b>Ajedrez</b><small>Estrategia 1 contra 1</small></span></span>
-        <span class="r"><span class="cnt" id="cnt-Ajedrez">0</span><svg class="chev" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span></button>
-      <button type="button" class="game" data-view="Dominó">
-        <span class="l"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="5" y1="12" x2="19" y2="12"/><circle cx="9" cy="7.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="7.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="16.5" r="1.3" fill="currentColor" stroke="none"/></svg></span><span><b>Dominó</b><small>Parejas (se sortean)</small></span></span>
-        <span class="r"><span class="cnt" id="cnt-Dominó">0</span><svg class="chev" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span></button>
-      <button type="button" class="game" data-view="Bingo">
-        <span class="l"><span class="ic"><span class="ball">B7</span></span><span><b>Bingo</b><small>Suerte y atención</small></span></span>
-        <span class="r"><span class="cnt" id="cnt-Bingo">0</span><svg class="chev" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span></button>
-    </div>
-  </section>
 
   <section class="card">
     <div class="sec-h"><h2>Inscripción</h2><small>Obligatorio</small></div>
@@ -195,6 +195,9 @@
       <div class="field"><label class="t" for="doc">Número de cédula</label><input id="doc" type="text" inputmode="numeric" placeholder="Solo números"></div>
       <div class="field"><label class="t" for="juego">Juego en el que vas a participar</label>
         <select id="juego"><option value="">Elige un juego…</option><option value="Ajedrez">Ajedrez</option><option value="Dominó">Dominó</option><option value="Bingo">Bingo</option></select></div>
+      <div class="field hide" id="wrap-comp"><label class="t" for="comp">Cédula de tu compañero de dominó</label>
+        <input id="comp" type="text" inputmode="numeric" placeholder="Solo números">
+        <p class="help">Tú eliges tu pareja. Tu compañero también debe registrarse y escribir <b>tu cédula</b> aquí.</p></div>
       <button class="btn" id="go" type="submit">¡Participar! →</button>
       <div id="msg" class="msg" role="status" aria-live="polite"></div>
       <p class="note">Cada cédula solo puede registrarse una vez, en un solo juego.</p>
@@ -202,121 +205,48 @@
   </section>
   <footer class="f">Torneo de Juegos</footer>
 </section>
-
-<!-- ========== PARTICIPANTES POR JUEGO ========== -->
-<section class="screen" id="s-participantes">
-  <header class="hero small"><h1 id="pt-title">Participantes</h1><p id="pt-sub"></p></header>
-  <div class="tabs" id="pt-tabs" style="margin:0">
-    <button data-pt="Ajedrez">Ajedrez</button><button data-pt="Dominó">Dominó</button><button data-pt="Bingo">Bingo</button>
-  </div>
-  <input id="pq" type="search" placeholder="Buscar por nombre...">
-  <div class="list" id="pt-list"></div>
-  <button class="btn" id="pt-join">Ir al registro →</button>
-</section>
-
-<!-- ========== 2. EQUIPOS ========== -->
-<section class="screen" id="s-equipos">
-  <header class="hero small"><h1>Dominó · Equipos</h1><p>Jugadores inscritos y parejas del sorteo.</p></header>
-  <div class="card">
-    <div class="stat"><div><span class="big" id="eq-n">0</span> <span class="mono" style="font-size:10px;color:var(--muted)" id="eq-l">JUGADORES</span></div><span class="chip mute" id="eq-src">Local</span></div>
-    <div class="row2" style="margin-top:12px">
-      <button class="btn" data-go="sorteo">🎲 Sorteo</button>
-      <button class="btn sec" id="btn-add">+ Jugador</button>
-    </div>
-    <form id="addf" style="display:none;margin-top:12px" novalidate>
-      <div class="field"><input id="a-nombre" type="text" placeholder="Nombre y apellido"></div>
-      <div class="field"><input id="a-doc" type="text" inputmode="numeric" placeholder="Número de documento"></div>
-      <button class="btn sm" type="submit">Agregar</button>
-    </form>
-  </div>
-  <input id="q" type="search" placeholder="Buscar por nombre o documento...">
-  <div class="list" id="eq-list"></div>
-  <div class="banner"><div><b>Regla de inscripción única</b><p>Cada participante solo puede estar inscrito en una disciplina (Dominó, Ajedrez o Bingo).</p></div></div>
-</section>
-
-<!-- ========== 3. SORTEO ========== -->
-<section class="screen" id="s-sorteo">
-  <header class="hero small"><h1>Sorteo de parejas</h1><p>Mezcla los jugadores de Dominó al azar y arma las parejas.</p></header>
-  <div class="card" id="draw-box"></div>
-  <div class="list" id="draw-list"></div>
-</section>
-
-<!-- ========== 4. LLAVES ========== -->
-<section class="screen" id="s-llaves">
-  <header class="hero small"><h1>Dominó · Parejas</h1><p>Cuadro de eliminación directa. Toca una pareja para marcarla ganadora.</p></header>
-  <div id="bk"></div>
-</section>
-
 </main>
-
-<nav><div>
-  <button data-go="registro"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Registro</button>
-  <button data-go="equipos"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4.5 2 4.5 5"/></svg>Equipos</button>
-  <button data-go="sorteo"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="8" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/></svg>Sorteo</button>
-  <button data-go="llaves"><svg viewBox="0 0 24 24"><path d="M3 5h5v5H3zM3 14h5v5H3zM16 9.5h5v5h-5zM8 7.5h3v9H8M11 12h5"/></svg>Llaves</button>
-</div></nav>
 
 <script>
 /* ===== CONFIGURACIÓN (ver README.md) =====
-   FORM_URL / ENTRY : tu Google Form (registro)
+   FORM_URL / ENTRY : tu Google Form (5 preguntas, en este orden)
    FICHAS           : lista de fichas que se pueden elegir
-   CHECK_URL        : (opcional) Apps Script que revisa si la cédula ya está inscrita
-   SHEET_CSV_URL    : (opcional) hoja de respuestas publicada como CSV; así Equipos lee los inscritos de Dominó */
+   CHECK_URL        : (opcional) Apps Script que revisa si la cédula ya está inscrita */
 const CONFIG = {
   FORM_URL: "https://docs.google.com/forms/d/e/PEGA_AQUI_EL_ID_DEL_FORM/formResponse",
-  ENTRY: { nombre:"entry.1111111111", ficha:"entry.2222222222", documento:"entry.3333333333", juego:"entry.4444444444" },
-  FICHAS: ["3493748", "3603930", "3174404", "3409199"],   // opciones de la lista "Número de ficha"
-  CHECK_URL: "",
-  SHEET_CSV_URL: ""
+  ENTRY: { nombre:"entry.1111111111", ficha:"entry.2222222222", documento:"entry.3333333333", juego:"entry.4444444444", companero:"entry.5555555555" },
+  FICHAS: ["3493748", "3603930", "3174404", "3409199"],
+  CHECK_URL: ""
 };
 
-const $ = (s, r=document) => r.querySelector(s);
-const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const norm = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim();
-const pad = n => String(n).padStart(2,"0");
+$("#ficha").insertAdjacentHTML("beforeend", CONFIG.FICHAS.map(f => `<option value="${esc(f)}">${esc(f)}</option>`).join(""));
 
-/* ---------- Navegación ---------- */
-const SCREENS = ["registro","participantes","equipos","sorteo","llaves"];
-function go(name){
-  if (!SCREENS.includes(name)) name = "registro";
-  $$(".screen").forEach(s => s.classList.toggle("on", s.id === "s-"+name));
-  $$("nav button").forEach(b => b.classList.toggle("on", b.dataset.go === (name === "participantes" ? "registro" : name)));
-  if (location.hash !== "#"+name) history.replaceState(null,"","#"+name);
-  window.scrollTo(0,0);
-  ({participantes:renderParticipantes, equipos:renderEquipos, sorteo:renderSorteo, llaves:renderLlaves})[name]?.();
-}
-document.addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) go(b.dataset.go); });
-window.addEventListener("hashchange", () => go(location.hash.slice(1)));
-
-/* ---------- Estado del torneo (solo en este dispositivo) ---------- */
-const LS = "torneo_estado_v1";
-let S = { manual:[], pairs:[], wins:{} };
-try { S = Object.assign(S, JSON.parse(localStorage.getItem(LS)) || {}); } catch {}
-const save = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch {} };
-let remote = [], remoteOk = false;
-
-/* ---------- 1. REGISTRO ---------- */
-const msg = $("#msg"), go_ = $("#go");
-const KEY = "inscripciones_juegos";
+const msg = $("#msg"), btn = $("#go"), KEY = "inscripciones_juegos";
 const saved = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
 const show = (type, text) => { msg.className = "msg " + type; msg.textContent = text; };
 const clean = v => v.trim().replace(/\s+/g, " ");
-const GAMES = ["Ajedrez","Dominó","Bingo"];
-$("#ficha").insertAdjacentHTML("beforeend", CONFIG.FICHAS.map(f => `<option value="${esc(f)}">${esc(f)}</option>`).join(""));
-const canon = j => GAMES.find(g => norm(g) === norm(j)) || "";
+const digits = v => v.replace(/\D/g, "");
+
+$("#juego").addEventListener("change", () => $("#wrap-comp").classList.toggle("hide", $("#juego").value !== "Dominó"));
 
 $("#f").addEventListener("submit", async e => {
   e.preventDefault();
-  const nombre = clean($("#nombre").value), ficha = $("#ficha").value.trim(), doc = $("#doc").value.replace(/\D/g, ""), juego = $("#juego").value;
+  const nombre = clean($("#nombre").value), ficha = $("#ficha").value, doc = digits($("#doc").value), juego = $("#juego").value;
+  const comp = juego === "Dominó" ? digits($("#comp").value) : "";
   if (!nombre.includes(" ")) return show("err", "Escribe nombre y apellido.");
   if (!ficha) return show("err", "Elige tu número de ficha.");
   if (doc.length < 5) return show("err", "Revisa tu número de cédula.");
   if (!juego) return show("err", "Elige el juego en el que vas a participar.");
+  if (juego === "Dominó"){
+    if (comp.length < 5) return show("err", "Escribe la cédula de tu compañero de dominó.");
+    if (comp === doc) return show("err", "Tu compañero no puede ser tú: escribe la cédula de tu pareja.");
+  }
 
-  go_.disabled = true; msg.className = "msg";
+  btn.disabled = true; msg.className = "msg";
   try {
-    const prev = allPeople().find(r => r.doc === doc);
+    const prev = saved().find(r => r.doc === doc);
     if (prev) return show("err", `Esta cédula ya está inscrita en ${prev.juego}. Solo se permite un registro por persona.`);
 
     if (CONFIG.CHECK_URL) {
@@ -330,219 +260,17 @@ $("#f").addEventListener("submit", async e => {
     body.append(CONFIG.ENTRY.ficha, ficha);
     body.append(CONFIG.ENTRY.documento, doc);
     body.append(CONFIG.ENTRY.juego, juego);
+    body.append(CONFIG.ENTRY.companero, comp);
     await fetch(CONFIG.FORM_URL, { method:"POST", mode:"no-cors", body });
 
-    const list = saved(); list.push({ nombre, doc, ficha, juego });
+    const list = saved(); list.push({ doc, juego });
     try { localStorage.setItem(KEY, JSON.stringify(list)); } catch {}
-    show("ok", `¡Listo ${nombre.split(" ")[0]}! Quedaste inscrito en ${juego}.`);
-    $("#f").reset(); updateCounts();
+    show("ok", `¡Listo ${nombre.split(" ")[0]}! Quedaste inscrito en ${juego}.` + (juego === "Dominó" ? " Tu compañero debe registrarse con tu cédula." : ""));
+    $("#f").reset(); $("#wrap-comp").classList.add("hide");
   } catch (err) {
     show("err", "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.");
-  } finally { go_.disabled = false; }
+  } finally { btn.disabled = false; }
 });
-
-/* ---------- Datos de inscritos ---------- */
-function parseCSV(t){
-  const rows = []; let row = [], cur = "", q = false;
-  for (let i = 0; i < t.length; i++){
-    const c = t[i];
-    if (q){ if (c === '"'){ if (t[i+1] === '"'){ cur += '"'; i++; } else q = false; } else cur += c; }
-    else if (c === '"') q = true;
-    else if (c === ","){ row.push(cur); cur = ""; }
-    else if (c === "\n"){ row.push(cur); rows.push(row); row = []; cur = ""; }
-    else if (c !== "\r") cur += c;
-  }
-  if (cur || row.length){ row.push(cur); rows.push(row); }
-  return rows;
-}
-async function loadRemote(){
-  if (!CONFIG.SHEET_CSV_URL) return;
-  try {
-    const r = await fetch(CONFIG.SHEET_CSV_URL, { cache:"no-store" });
-    const rows = parseCSV(await r.text()).slice(1);      // A=fecha, B=nombre, C=ficha, D=documento, E=juego
-    remote = rows.filter(x => x[1] && canon(x[4]||""))
-      .map(x => ({ nombre:clean(x[1]), ficha:(x[2]||"").trim(), doc:String(x[3]||"").replace(/\D/g,""), juego:canon(x[4]) }));
-    remoteOk = true;
-  } catch { remoteOk = false; }
-}
-/* Todos los inscritos: hoja en línea + inscritos desde este dispositivo */
-function allPeople(){
-  const seen = new Set(), out = [];
-  [...remote, ...saved().filter(x => x.nombre).map(x => ({ nombre:x.nombre, ficha:x.ficha, doc:x.doc, juego:canon(x.juego) }))].forEach(p => {
-    const k = p.doc || norm(p.nombre);
-    if (p.juego && !seen.has(k)){ seen.add(k); out.push(p); }
-  });
-  return out;
-}
-function updateCounts(){
-  const all = allPeople();
-  GAMES.forEach(g => { const el = $("#cnt-" + g); if (el) el.textContent = all.filter(p => p.juego === g).length + (g === "Dominó" ? S.manual.length : 0); });
-}
-function players(){   /* jugadores de Dominó */
-  const seen = new Set(), out = [];
-  [...allPeople().filter(p => p.juego === "Dominó").map(p => ({...p, manual:false})), ...S.manual.map(p => ({...p, manual:true}))].forEach(p => {
-    const k = p.doc || norm(p.nombre);
-    if (!seen.has(k)){ seen.add(k); out.push(p); }
-  });
-  return out;
-}
-const pdoc = p => p.doc ? "ID: " + esc(p.doc) : "Sin documento";
-
-/* ---------- PARTICIPANTES POR JUEGO ---------- */
-let viewGame = "Ajedrez";
-function openGame(g){ viewGame = g; $("#pq").value = ""; go("participantes"); }
-$$(".game[data-view]").forEach(b => b.addEventListener("click", () => openGame(b.dataset.view)));
-$("#pt-tabs").addEventListener("click", e => { const b = e.target.closest("[data-pt]"); if (b){ viewGame = b.dataset.pt; renderParticipantes(); } });
-$("#pq").addEventListener("input", renderParticipantes);
-$("#pt-join").addEventListener("click", () => go("registro"));
-function renderParticipantes(){
-  const q = norm($("#pq").value || "");
-  let ps = allPeople().filter(p => p.juego === viewGame);
-  if (viewGame === "Dominó") ps = ps.concat(S.manual.map(p => ({...p, juego:"Dominó"})).filter(m => !ps.some(x => x.doc && x.doc === m.doc)));
-  $$("#pt-tabs button").forEach(b => b.classList.toggle("on", b.dataset.pt === viewGame));
-  $("#pt-title").textContent = viewGame;
-  $("#pt-sub").textContent = ps.length + (ps.length === 1 ? " participante inscrito" : " participantes inscritos");
-  const shown = ps.filter(p => !q || norm(p.nombre).includes(q));
-  const note = CONFIG.SHEET_CSV_URL ? "" : `<div class="banner"><div><b>Solo se ven los inscritos de este dispositivo</b><p>Para ver a todos, conecta la hoja de respuestas (SHEET_CSV_URL).</p></div></div>`;
-  $("#pt-list").innerHTML = (shown.length
-    ? shown.map((p,i) => `<div class="pt"><span class="sd">${pad(i+1)}</span><div style="min-width:0"><b>${esc(p.nombre)}</b>${p.ficha ? `<small>Ficha ${esc(p.ficha)}</small>` : ""}</div></div>`).join("")
-    : `<div class="empty">${q ? "Sin resultados." : "Aún no hay inscritos en " + esc(viewGame) + "."}</div>`) + note;
-}
-
-/* ---------- 2. EQUIPOS ---------- */
-$("#btn-add").addEventListener("click", () => { const f = $("#addf"); f.style.display = f.style.display === "none" ? "block" : "none"; });
-$("#addf").addEventListener("submit", e => {
-  e.preventDefault();
-  const nombre = clean($("#a-nombre").value), doc = $("#a-doc").value.replace(/\D/g,"");
-  if (!nombre) return;
-  if (doc && players().some(p => p.doc === doc)) return alert("Ese documento ya está inscrito.");
-  S.manual.push({ nombre, doc, ficha:"" }); save(); e.target.reset(); renderEquipos();
-});
-$("#q").addEventListener("input", renderEquipos);
-
-function renderEquipos(){
-  const ps = players(), q = norm($("#q").value || "");
-  $("#eq-n").textContent = S.pairs.length ? S.pairs.length : ps.length;
-  $("#eq-l").textContent = S.pairs.length ? "PAREJAS · " + ps.length + " JUGADORES" : "JUGADORES";
-  $("#eq-src").textContent = CONFIG.SHEET_CSV_URL ? (remoteOk ? "Hoja en línea" : "Hoja sin conexión") : "Solo local";
-  const list = $("#eq-list"); let html = "";
-  const match = (...t) => !q || norm(t.join(" ")).includes(q);
-
-  S.pairs.forEach((p, i) => {
-    if (!match(p.name, p.a.nombre, p.b.nombre, p.a.doc, p.b.doc)) return;
-    html += `<div class="team"><div class="top"><div><h3>${esc(p.name)}</h3><span class="meta">Mesa ${pad(i+1)} · Sembrado ${i+1}</span></div><span class="chip">Confirmada</span></div>
-      <div class="duo"><div><small>Jugador 1</small><b>${esc(p.a.nombre)}</b><i>${pdoc(p.a)}</i></div><div><small>Jugador 2</small><b>${esc(p.b.nombre)}</b><i>${pdoc(p.b)}</i></div></div>
-      <div><button class="link" data-rename="${i}">✎ Renombrar</button></div></div>`;
-  });
-  const inPair = new Set(S.pairs.flatMap(p => [p.a, p.b].map(x => x.doc || norm(x.nombre))));
-  ps.filter(p => !S.pairs.length || !inPair.has(p.doc || norm(p.nombre))).forEach(p => {
-    if (!match(p.nombre, p.doc)) return;
-    html += `<div class="team"><div class="top"><div><h3>${esc(p.nombre)}</h3><span class="meta">${pdoc(p)}${p.ficha ? " · Ficha " + esc(p.ficha) : ""}</span></div>
-      <span class="chip mute">${S.pairs.length ? "Sin pareja" : "Inscrito"}</span></div>
-      ${p.manual ? `<div><button class="link" data-del="${esc(p.doc || p.nombre)}">🗑 Quitar</button></div>` : ""}</div>`;
-  });
-  list.innerHTML = html || `<div class="empty">Aún no hay jugadores de Dominó.<br>Agrega uno o conecta la hoja de respuestas.</div>`;
-}
-$("#eq-list").addEventListener("click", e => {
-  const r = e.target.closest("[data-rename]"), d = e.target.closest("[data-del]");
-  if (r){ const p = S.pairs[+r.dataset.rename], n = prompt("Nuevo nombre para la pareja:", p.name); if (n && n.trim()){ p.name = n.trim(); save(); renderEquipos(); } }
-  if (d){ S.manual = S.manual.filter(p => (p.doc || p.nombre) !== d.dataset.del); save(); renderEquipos(); }
-});
-
-/* ---------- 3. SORTEO ---------- */
-let draft = null;
-function shuffle(a){
-  a = a.slice();
-  for (let i = a.length - 1; i > 0; i--){ const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i+1); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
-}
-function makePairs(ps){
-  const s = shuffle(ps), pairs = [];
-  for (let i = 0; i + 1 < s.length; i += 2) pairs.push({ id:"p"+(pairs.length+1), name:"Pareja " + pad(pairs.length+1), a:s[i], b:s[i+1] });
-  return { pairs, spare: s.length % 2 ? s[s.length-1] : null };
-}
-function renderSorteo(){
-  const n = players().length, box = $("#draw-box"), list = $("#draw-list");
-  const warn = S.pairs.length ? `<p class="note" style="color:var(--err)">Ya hay un sorteo confirmado. Confirmar uno nuevo reemplaza las parejas y reinicia las llaves.</p>` : "";
-  if (n < 4){
-    box.innerHTML = `<div class="empty">Se necesitan al menos 4 jugadores de Dominó (hay ${n}).</div>`; list.innerHTML = ""; return;
-  }
-  if (!draft){
-    box.innerHTML = `<div class="shuffle"><div class="big mono" style="font-size:34px;font-weight:700">${n}</div><div class="mono" style="font-size:11px;color:var(--muted)">JUGADORES · ${Math.floor(n/2)} PAREJAS</div></div>
-      <button class="btn" id="do-draw" style="margin-top:12px">🎲 Sortear parejas</button>${warn}`;
-    list.innerHTML = "";
-  } else {
-    box.innerHTML = `<div class="row2"><button class="btn sec" id="do-draw">Volver a sortear</button><button class="btn" id="do-ok">Confirmar</button></div>${warn}`;
-    list.innerHTML = draft.pairs.map((p,i) => `<div class="team"><div class="top"><h3>${esc(p.name)}</h3><span class="meta">Mesa ${pad(i+1)}</span></div>
-      <div class="duo"><div><b>${esc(p.a.nombre)}</b><i>${pdoc(p.a)}</i></div><div><b>${esc(p.b.nombre)}</b><i>${pdoc(p.b)}</i></div></div></div>`).join("")
-      + (draft.spare ? `<div class="banner"><div><b>Suplente</b><p>${esc(draft.spare.nombre)} queda sin pareja (cantidad impar de jugadores).</p></div></div>` : "");
-  }
-}
-$("#draw-box").addEventListener("click", e => {
-  if (e.target.closest("#do-draw")){
-    $("#draw-box").innerHTML = `<div class="shuffle"><div class="spin"></div><b class="mono">Mezclando...</b></div>`; $("#draw-list").innerHTML = "";
-    setTimeout(() => { draft = makePairs(players()); renderSorteo(); }, 900);
-  }
-  if (e.target.closest("#do-ok") && draft){
-    S.pairs = draft.pairs; S.wins = {}; save(); draft = null; go("llaves");
-  }
-});
-
-/* ---------- 4. LLAVES ---------- */
-let stage = null;
-const roundName = (r, total) => { const left = total - r; return left === 1 ? "Final" : left === 2 ? "Semifinal" : left === 3 ? "Cuartos" : left === 4 ? "Octavos" : left === 5 ? "Dieciseisavos" : "Ronda " + (r+1); };
-function bracketModel(){
-  const n = S.pairs.length; let size = 2; while (size < n) size *= 2;
-  const seeds = Array.from({length:size}, (_, i) => S.pairs[i] || null);
-  const rounds = Math.log2(size), byId = Object.fromEntries(S.pairs.map(p => [p.id, p]));
-  const parts = (r, m) => r === 0 ? [seeds[m], seeds[size-1-m]] : [winner(r-1, 2*m), winner(r-1, 2*m+1)];
-  function winner(r, m){
-    const [a, b] = parts(r, m);
-    if (r === 0 && a && !b) return a; if (r === 0 && b && !a) return b;
-    const w = byId[S.wins[r+"-"+m]]; return w && (w === a || w === b) ? w : null;
-  }
-  return { size, rounds, parts, winner, seeds };
-}
-function renderLlaves(){
-  const el = $("#bk");
-  if (S.pairs.length < 2){ el.innerHTML = `<div class="card empty">Primero haz el sorteo de parejas.<br><br><button class="btn sm" data-go="sorteo" style="margin:auto">Ir al sorteo</button></div>`; return; }
-  const M = bracketModel();
-  if (stage === null || stage >= M.rounds){
-    stage = 0; for (let r = 0; r < M.rounds; r++){ let open = false; for (let m = 0; m < M.size/2**(r+1); m++){ const [a,b] = M.parts(r,m); if (a && b && !M.winner(r,m)) open = true; } if (open){ stage = r; break; } stage = r; }
-  }
-  const champ = M.winner(M.rounds-1, 0), [fa, fb] = M.parts(M.rounds-1, 0);
-  const seedOf = p => S.pairs.indexOf(p) + 1;
-  const fin = p => p ? `<div><div class="nm">${esc(p.name)}</div><small>Sembrado ${seedOf(p)}</small></div>` : `<div><div class="nm" style="opacity:.6">Por definir</div><small>Ganador previo</small></div>`;
-  let h = `<div class="hero" style="text-align:left"><div class="mono" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase">🏆 Gran final</div>
-    <div class="final">${fin(fa)}<span class="vs">VS</span>${fin(fb)}</div>
-    ${champ ? `<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.18);text-align:center"><small style="color:var(--hero-mute)">PAREJA CAMPEONA</small><div class="nm" style="font:700 20px var(--f-head)">${esc(champ.name)}</div><small style="color:var(--hero-mute)">${esc(champ.a.nombre)} &amp; ${esc(champ.b.nombre)}</small></div>` : ""}</div>`;
-  h += `<div class="tabs" style="margin:14px 0">` + Array.from({length:M.rounds}, (_, r) => `<button data-stage="${r}" class="${r===stage?"on":""}">${roundName(r,M.rounds)}</button>`).join("") + `</div><div class="list">`;
-  const count = M.size / 2**(stage+1);
-  for (let m = 0; m < count; m++){
-    const [a, b] = M.parts(stage, m), w = M.winner(stage, m), bye = stage === 0 && (!a || !b);
-    const state = bye ? "Pase directo" : w ? "Finalizado" : a && b ? "Por jugar" : "Por definir";
-    const row = t => {
-      if (!t) return `<div class="tm tbd"><span class="w"><span class="sd">–</span><span><b>${bye ? "Libre (bye)" : "Por definir"}</b></span></span></div>`;
-      const cls = w ? (w === t ? "win" : "lose") : "";
-      const tag = w === t ? `<span class="tag">AVANZA</span>` : "";
-      const inner = `<span class="w"><span class="sd">${pad(seedOf(t))}</span><span><b>${esc(t.name)}</b><small>${esc(t.a.nombre)} &amp; ${esc(t.b.nombre)}</small></span></span>${tag}`;
-      return a && b && !bye ? `<button class="tm ${cls}" data-win="${stage}-${m}" data-id="${t.id}">${inner}</button>` : `<div class="tm ${cls}">${inner}</div>`;
-    };
-    h += `<div class="match"><div class="hd"><span>Mesa ${pad(m+1)} · ${state}</span><span>Llave ${String.fromCharCode(65+stage)}-${m+1}</span></div>${row(a)}${row(b)}</div>`;
-  }
-  el.innerHTML = h + `</div><button class="btn sec" id="bk-reset" style="margin-top:14px">Reiniciar resultados</button>`;
-}
-$("#bk").addEventListener("click", e => {
-  const t = e.target.closest("[data-stage]"), w = e.target.closest("[data-win]");
-  if (t){ stage = +t.dataset.stage; renderLlaves(); }
-  if (w){ const k = w.dataset.win; if (S.wins[k] === w.dataset.id) delete S.wins[k]; else S.wins[k] = w.dataset.id; save(); renderLlaves(); }
-  if (e.target.closest("#bk-reset") && confirm("¿Borrar todos los resultados?")){ S.wins = {}; save(); stage = null; renderLlaves(); }
-});
-
-/* ---------- Inicio ---------- */
-updateCounts();
-loadRemote().then(() => { updateCounts(); ({participantes:renderParticipantes, equipos:renderEquipos})[location.hash.slice(1)]?.(); });
-go(location.hash.slice(1) || "registro");
 </script>
 </body>
 </html>
